@@ -1,0 +1,9 @@
+# typecheck
+echo "🔍 Running TypeScript type check..."
+bun run typecheck
+echo "✅ Type check passed."
+
+# lint-staged
+echo "🔧 Linting and formatting staged files..."
+bunx lint-staged
+echo "✅ Formatting complete."
