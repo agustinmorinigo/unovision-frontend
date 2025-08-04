@@ -1,11 +1,12 @@
 import { Navigate, Outlet } from 'react-router';
+import { useIsAuthenticated } from '@/hooks/use-is-authenticated';
 
 export const PublicLayout = () => {
-	const isAuthenticated = false; // Esto vendría de un hook de autenticación real.
+    const isAuthenticated = useIsAuthenticated();
 
-	if (isAuthenticated) {
-		return <Navigate to="/dashboard" replace />;
-	} else {
-		return <Outlet />;
-	}
+    if (isAuthenticated) {
+        return <Navigate to="/dashboard" replace />;
+    } else {
+        return <Outlet />;
+    }
 };
