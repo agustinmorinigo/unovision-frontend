@@ -1,15 +1,16 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-// import { Eye, EyeOff } from 'lucide-react';
-// import { useState } from 'react';
+import { Eye, EyeOff } from 'lucide-react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
+import supabase from '@/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { cn } from '@/lib/utils';
 import { type LoginFormSchema, loginFormSchema } from '@/modules/auth/schemas/login-form-schema';
 
 export default function Form() {
-	// const [showPassword, setShowPassword] = useState(false);
+	const [showPassword, setShowPassword] = useState(false);
 
 	const {
 		register,
@@ -19,7 +20,20 @@ export default function Form() {
 		resolver: zodResolver(loginFormSchema),
 	});
 
-	const onSubmit = (data: LoginFormSchema) => console.log(data);
+	const onSubmit = async (formValues: LoginFormSchema): Promise<void> => {
+		const { email, password } = formValues;
+
+		try {
+			const { error } = await supabase.auth.signInWithPassword({ email, password });
+
+			if (error) {
+				toast.error(`Error al iniciar sesión: ${error.message}`);
+				return;
+			}
+		} catch {
+			toast.error('Error al iniciar sesión');
+		}
+	};
 
 	return (
 		<form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
@@ -30,7 +44,8 @@ export default function Form() {
 						{...register('email')}
 						placeholder="tu@ejemplo.com"
 						id="email"
-						className={cn(errors.email && 'border-destructive')}
+						autoComplete="off"
+						isError={!!errors.email}
 					/>
 					<p className="text-destructive text-sm">{errors.email?.message}</p>
 				</div>
@@ -41,24 +56,27 @@ export default function Form() {
 				<div className="relative">
 					<Input
 						{...register('password')}
-						// type={showPassword ? 'text' : 'password'}
-						type={'password'}
+						type={showPassword ? 'text' : 'password'}
 						id="password"
-						className={cn(errors.password && 'border-destructive')}
+						autoComplete="off"
+						isError={!!errors.password}
 					/>
-					{/* <button
-            type="button"
-            onClick={() => setShowPassword((prev) => !prev)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground"
-            tabIndex={-1}
-          >
-            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-          </button> */}
-					<p className="text-destructive text-sm mt-1">{errors.password?.message}</p>
+					<button
+						type="button"
+						onClick={() => setShowPassword((prev) => !prev)}
+						className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+						tabIndex={-1}
+						aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+					>
+						{showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+					</button>
+				</div>
+				<div className="min-h-[1.25rem]">
+					{errors.password && <p className="text-destructive text-sm">{errors.password.message}</p>}
 				</div>
 			</div>
 
-			<Button type="submit" className="w-full mt-3">
+			<Button type="submit" className="w-full">
 				Iniciar Sesión
 			</Button>
 		</form>
