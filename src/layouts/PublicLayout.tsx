@@ -1,12 +1,12 @@
 import { Navigate, Outlet } from 'react-router';
-import { useIsAuthenticated } from '@/hooks/use-is-authenticated';
+import { useIsAuthenticated } from '@/modules/auth/hooks/use-is-authenticated';
 
 export const PublicLayout = () => {
-    const isAuthenticated = useIsAuthenticated();
+  const isAuthenticated = useIsAuthenticated();
 
-    if (isAuthenticated) {
-        return <Navigate to="/dashboard" replace />;
-    } else {
-        return <Outlet />;
-    }
+  if (isAuthenticated) {
+    return <Navigate to="/dashboard" replace />;
+  } else {
+    return <Outlet />;
+  }
 };

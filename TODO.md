@@ -1,1 +1,0 @@
-# Unificar lógica de isAuth. TODO tiene que venir de un solo lugar. No hook y utils
