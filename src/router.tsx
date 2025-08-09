@@ -1,15 +1,14 @@
-import { createBrowserRouter, redirect } from 'react-router';
-import { PrivateLayout } from '@/layouts/PrivateLayout';
-import { PublicLayout } from '@/layouts/PublicLayout';
-import { AuthGuard } from '@/modules/auth/components/AuthGuard';
+import { createBrowserRouter, Navigate, redirect } from 'react-router';
+import { PrivateLayout } from '@/layouts/private/private-layout';
+import { PublicLayout } from '@/layouts/public/public-layout';
+import { AuthGuard } from '@/modules/auth/components/auth-guard';
 import { isAuthenticated } from '@/modules/auth/utils/is-authenticated';
-import DashboardPage from '@/pages/Dashboard';
-import LoginPage from '@/pages/Login';
-import NotFoundPage from '@/pages/NotFound';
+import ExpensesPage from '@/pages/expenses';
+import LoginPage from '@/pages/login';
 
 const rootLoader = async () => {
   if (await isAuthenticated()) {
-    return redirect('/dashboard');
+    return redirect('/expenses');
   } else {
     return redirect('/login');
   }
@@ -17,7 +16,7 @@ const rootLoader = async () => {
 
 const publicLoader = async () => {
   if (await isAuthenticated()) {
-    return redirect('/dashboard');
+    return redirect('/expenses');
   }
   return null;
 };
@@ -39,13 +38,13 @@ const router = createBrowserRouter([
       {
         path: '/',
         element: <PrivateLayout />,
-        children: [{ path: 'dashboard', element: <DashboardPage /> }],
+        children: [{ path: 'expenses', element: <ExpensesPage /> }],
       },
     ],
   },
   {
     path: '*',
-    element: <NotFoundPage />,
+    element: <Navigate to='/login' />,
   },
 ]);
 

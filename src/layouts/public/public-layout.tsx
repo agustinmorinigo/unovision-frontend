@@ -5,7 +5,7 @@ export const PublicLayout = () => {
   const isAuthenticated = useIsAuthenticated();
 
   if (isAuthenticated) {
-    return <Navigate to="/dashboard" replace />;
+    return <Navigate to="/expenses" replace />;
   } else {
     return <Outlet />;
   }
