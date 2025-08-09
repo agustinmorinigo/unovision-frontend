@@ -1,8 +1,8 @@
 import { Navigate, Outlet } from 'react-router';
-import { useIsAuthenticated } from '@/modules/auth/hooks/use-is-authenticated';
+import useUser from '@/modules/auth/stores/use-user-store';
 
 export const PublicLayout = () => {
-  const isAuthenticated = useIsAuthenticated();
+  const { isAuthenticated } = useUser();
 
   if (isAuthenticated) {
     return <Navigate to="/expenses" replace />;
