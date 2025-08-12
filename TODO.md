@@ -2,7 +2,6 @@
 ## Agregar sección "gestión de usuarios" en el sidebar.
 ## Agregar funcionalidad de gastos.
 ## Siempre mirar que las features son mobile friendly.
-## LA FUNCIONALIDAD DE DARK-MODE, DEFAULT OPEN Y SELECTED ITEM CAPAZ LO PUEDO METER TODO EN ZUSNTADN O ALGO ASÍ. PARA GUARDARLO AHÍ DE FORMA PERSISTENTE Y NO A SECAS EN LS.
 ## Corroborar que cuando ingreso a / o a localhost:3000 o a /loginfeqkjfiqjp o /dashboardasd, hace la redirección correctamente a la ruta x default.
 ## Acomodar bien el router, está mal ahora mismo...
 
