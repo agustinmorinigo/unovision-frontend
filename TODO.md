@@ -4,7 +4,6 @@
 ## Siempre mirar que las features son mobile friendly.
 ## LA FUNCIONALIDAD DE DARK-MODE, DEFAULT OPEN Y SELECTED ITEM CAPAZ LO PUEDO METER TODO EN ZUSNTADN O ALGO ASÍ. PARA GUARDARLO AHÍ DE FORMA PERSISTENTE Y NO A SECAS EN LS.
 ## En el logout, tengo que limpiar TODO del LS y de Zustand, MENOS el theme.
-## Cuando hago logout y recargo la página en el login, se va el darkmode. Ver eso!!!
 
 
 ## UN USUARIO PUEDE TENER VARIOS ROLES. POR ENDE, TENDRÁ VARIOS PERFILES O INFO RELEVANTE. SI ES PACIENTE, VA A TENER HISTORIA CLÍNICA Y ESO. SI ES CONTADOR, NO. VER CÓMO SE MANEJA ESO...
