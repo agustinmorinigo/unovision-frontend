@@ -1,9 +1,7 @@
 import { persist } from 'zustand/middleware';
-import supabase from '@/client';
-import create, { resetAllStores } from '@/config/store';
+import create from '@/config/store';
 import type { User } from '@/modules/auth/entities/user';
 import type { Organization } from '@/shared/organizations/entities';
-import toCamelCase from '@/utils/to-camel-case';
 
 interface State {
   isAuthenticated: boolean;
@@ -17,21 +15,6 @@ interface Actions {
   setUserOrgs: (userOrgs: Organization[]) => void;
   setSelectedUserOrg: (org: Organization | null) => void;
 }
-
-// TO DO: Change this to other place.
-supabase.auth.onAuthStateChange((_, session) => {
-  const { setUser } = useUserStore.getState();
-
-  if (!session) {
-    resetAllStores();
-    return;
-  }
-
-  if (session.user.id !== useUserStore.getState().user?.id) {
-    setUser(toCamelCase({ ...session.user }));
-    return;
-  }
-});
 
 const useUserStore = create<State & Actions>()(
   persist(

@@ -3,8 +3,9 @@
 ## Agregar funcionalidad de gastos.
 ## Siempre mirar que las features son mobile friendly.
 ## LA FUNCIONALIDAD DE DARK-MODE, DEFAULT OPEN Y SELECTED ITEM CAPAZ LO PUEDO METER TODO EN ZUSNTADN O ALGO ASÍ. PARA GUARDARLO AHÍ DE FORMA PERSISTENTE Y NO A SECAS EN LS.
-## EJECUTAR ESTO: "// TO DO: Change this to other place.".
-
+## Corroborar que cuando ingreso a / o a localhost:3000 o a /loginfeqkjfiqjp o /dashboardasd, hace la redirección correctamente a la ruta x default.
+## Acomodar bien el router, está mal ahora mismo...
+## Falta setearle la select org al user.
 
 ## UN USUARIO PUEDE TENER VARIOS ROLES. POR ENDE, TENDRÁ VARIOS PERFILES O INFO RELEVANTE. SI ES PACIENTE, VA A TENER HISTORIA CLÍNICA Y ESO. SI ES CONTADOR, NO. VER CÓMO SE MANEJA ESO...
 
