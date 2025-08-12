@@ -5,7 +5,7 @@ export default function useGetUserOrganizationsQuery(userId: string) {
   const query = useQuery({
     queryKey: ['get-user-organizations', userId],
     queryFn: () => api.usersOrganizations.getByUserId(userId),
-    enabled: !!userId, // Solo ejecutar la consulta si userId está definido
+    staleTime: 1000 * 60 * 60 * 24, // 24 hours
   });
 
   return query;
