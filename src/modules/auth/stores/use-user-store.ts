@@ -1,6 +1,6 @@
-import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import supabase from '@/client';
+import create, { resetAllStores } from '@/config/store';
 import type { User } from '@/modules/auth/entities/user';
 import type { Organization } from '@/shared/organizations/entities';
 import toCamelCase from '@/utils/to-camel-case';
@@ -23,7 +23,7 @@ supabase.auth.onAuthStateChange((_, session) => {
   const { setUser } = useUserStore.getState();
 
   if (!session) {
-    setUser(null);
+    resetAllStores();
     return;
   }
 

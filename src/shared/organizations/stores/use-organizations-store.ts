@@ -1,5 +1,5 @@
-import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import create from '@/config/store';
 import type { Organization } from '@/shared/organizations/entities';
 
 interface State {
