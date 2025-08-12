@@ -12,7 +12,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import useSidebarActiveItem from '@/hooks/use-sidebar-active-item';
+import useSidebarActiveItem from '@/modules/app/hooks/use-sidebar-active-item';
 
 const items = [
   {

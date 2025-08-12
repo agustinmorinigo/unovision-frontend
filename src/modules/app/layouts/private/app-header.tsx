@@ -1,8 +1,8 @@
 import { LogOut, Moon, Sun } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { SidebarTrigger } from '@/components/ui/sidebar';
-import useSidebarVisibility from '@/hooks/use-sidebar-visibility';
-import useTheme from '@/hooks/use-theme';
+import useSidebarVisibility from '@/modules/app/hooks/use-sidebar-visibility';
+import useTheme from '@/modules/app/hooks/use-theme';
 import useSignOutMutation from '@/modules/auth/queries/use-sign-out-mutation';
 
 export default function AppHeader() {

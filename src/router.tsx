@@ -1,6 +1,6 @@
 import { createBrowserRouter, Navigate } from 'react-router';
-import { PrivateLayout } from '@/layouts/private/private-layout';
-import { PublicLayout } from '@/layouts/public/public-layout';
+import { PrivateLayout } from '@/modules/app/layouts/private/private-layout';
+import { PublicLayout } from '@/modules/app/layouts/public/public-layout';
 import { AuthGuard } from '@/modules/auth/components/auth-guard';
 import ExpensesPage from '@/pages/expenses';
 import LoginPage from '@/pages/login';
