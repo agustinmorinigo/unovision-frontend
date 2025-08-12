@@ -15,7 +15,7 @@ export default function UserOrganizationsGuard({ user }: UserOrganizationGuardPr
   const getOrgsQuery = useGetOrganizationsQuery();
   const getUserOrgsQuery = useGetUserOrganizationsQuery(user.id);
   const { mutate: signOut } = useSignOutMutation();
-  const { setUserOrgs } = useUserStore();
+  const { setUserOrgs, setSelectedUserOrg } = useUserStore();
   const isSomethingPending = getOrgsQuery.isPending || getUserOrgsQuery.isPending;
   const isSomethingError = getOrgsQuery.isError || getUserOrgsQuery.isError;
   const isGetOrgsQueryDataEmpty = getOrgsQuery.data?.length === 0;
@@ -41,11 +41,13 @@ export default function UserOrganizationsGuard({ user }: UserOrganizationGuardPr
     );
 
     setUserOrgs(userOrgs);
+    setSelectedUserOrg(userOrgs[0]);
   }, [
     getOrgsQuery.data,
     getUserOrgsQuery.data,
     signOut,
     setUserOrgs,
+    setSelectedUserOrg,
     isGetOrgsQueryDataEmpty,
     isGetUserOrgsQueryDataEmpty,
   ]);
