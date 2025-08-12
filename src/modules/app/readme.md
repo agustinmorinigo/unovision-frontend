@@ -1,0 +1,1 @@
+Meter acá layouts y hooks qsolo se usan como config global. También el app.tsx

@@ -1,7 +1,12 @@
-import { auth } from './auth';
+import { auth } from '@/services/api/auth';
+import { organizations } from '@/services/api/organizations';
+import { usersOrganizations } from '@/services/api/users-organizations';
 
+// Each module here refers to a table in the database. Then, in each module, the methods needed to interact with the API are created.
 const api = {
   auth,
+  usersOrganizations,
+  organizations,
 };
 
 export default api;
