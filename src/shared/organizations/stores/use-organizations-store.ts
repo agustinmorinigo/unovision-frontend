@@ -17,7 +17,7 @@ const useOrganizationsStore = create<State & Actions>()(
       setOrganizations: (organizations) => set({ organizations }),
     }),
     {
-      name: 'organizations-store',
+      name: 'organizations',
       partialize: (state) => ({
         organizations: state.organizations,
       }),
