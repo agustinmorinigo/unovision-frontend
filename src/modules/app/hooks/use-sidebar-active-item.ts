@@ -27,6 +27,10 @@ const useSidebarActiveItem = (items: SidebarItem[]) => {
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, activeItemId);
+
+    return () => {
+      localStorage.removeItem(STORAGE_KEY);
+    };
   }, [activeItemId]);
 
   const setActiveItemId = (itemId: string) => setActiveItemStateId(itemId);

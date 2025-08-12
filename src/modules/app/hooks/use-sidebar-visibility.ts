@@ -13,6 +13,10 @@ export default function useSidebarVisibility() {
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, String(isOpen));
+
+    return () => {
+      localStorage.removeItem(STORAGE_KEY);
+    };
   }, [isOpen]);
 
   const toggleSidebar = () => setIsOpen((prev) => !prev);
