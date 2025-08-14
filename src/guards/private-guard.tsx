@@ -6,11 +6,10 @@ export default function PrivateGuard() {
   const { isAuthenticated, user } = useUserStore();
 
   if (!isAuthenticated) {
-    // Si comento esto, funciona el login con Google.
     return <Navigate to="/login" replace />;
   }
 
-  if (!user) return null
+  if (!user) return null;
 
   return <UserOrganizationsGuard user={user} />;
 }
