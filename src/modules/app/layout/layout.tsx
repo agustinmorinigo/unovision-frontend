@@ -1,18 +1,18 @@
 import { SidebarProvider } from '@/components/ui/sidebar';
 import useSidebarVisibility from '@/modules/app/hooks/use-sidebar-visibility';
-import AppBody from '@/modules/app/layouts/private/app-body';
-import AppHeader from '@/modules/app/layouts/private/app-header';
-import AppSidebar from '@/modules/app/layouts/private/app-sidebar';
+import Body from '@/modules/app/layout/body';
+import Header from '@/modules/app/layout/header';
+import Sidebar from '@/modules/app/layout/sidebar';
 
-export const PrivateLayout = () => {
+export const Layout = () => {
   const { isOpen } = useSidebarVisibility();
 
   return (
     <SidebarProvider defaultOpen={isOpen}>
-      <AppSidebar />
+      <Sidebar />
       <main className="size-full overflow-x-hidden overflow-y-auto">
-        <AppHeader />
-        <AppBody />
+        <Header />
+        <Body />
       </main>
     </SidebarProvider>
   );

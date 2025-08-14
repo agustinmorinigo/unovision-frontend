@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import { ListTodo, Receipt } from 'lucide-react';
 import { Link } from 'react-router';
 import {
-  Sidebar,
+  Sidebar as ShadcnSidebar,
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
@@ -35,11 +35,11 @@ const items = [
   // },
 ];
 
-export default function AppSidebar() {
+export default function Sidebar() {
   const { activeItemId, setActiveItemId } = useSidebarActiveItem(items);
 
   return (
-    <Sidebar>
+    <ShadcnSidebar>
       <SidebarHeader className="border-b border-sidebar-border">
         <div className="flex items-center gap-2 px-2 py-4">
           <div className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
@@ -78,6 +78,6 @@ export default function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-    </Sidebar>
+    </ShadcnSidebar>
   );
 }

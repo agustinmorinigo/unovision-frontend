@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import { Outlet } from 'react-router';
 import { toast } from 'sonner';
+import { Layout } from '@/modules/app/layout/layout';
 import type { User } from '@/modules/auth/entities/user';
 import useGetUserOrganizationsQuery from '@/modules/auth/queries/use-get-user-organizations-query';
 import useSignOutMutation from '@/modules/auth/queries/use-sign-out-mutation';
@@ -70,5 +70,5 @@ export default function UserOrganizationsGuard({ user }: UserOrganizationGuardPr
     return null;
   }
 
-  return <Outlet />;
+  return <Layout />;
 }

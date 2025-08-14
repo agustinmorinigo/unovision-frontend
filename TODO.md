@@ -1,4 +1,3 @@
-## Agregar routing basado en el role.
 ## Agregar sección "gestión de usuarios" en el sidebar.
 ## Agregar funcionalidad de gastos.
 ## Siempre mirar que las features son mobile friendly.
@@ -9,10 +8,6 @@
 
 ## IMPLEMENTAR KEYS FACTORY PARA LAS KEYS DE REACT-QUERY.
 
+## Agregar testing a cosas básicas y utils.
 
-
-
-
-- PRÓXIMO TO DO -
-## Corroborar que cuando ingreso a / o a localhost:3000 o a /loginfeqkjfiqjp o /dashboardasd, hace la redirección correctamente a la ruta x default.
-## Acomodar bien el router, está mal ahora mismo...
+## Arreglar signin por Google.
