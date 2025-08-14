@@ -3,7 +3,7 @@ import { RouterProvider } from 'react-router';
 import { Toaster } from '@/components/ui/sonner';
 import { ThemeProvider } from '@/modules/app/providers/theme-provider';
 import useAuthListener from '@/modules/auth/hooks/use-auth-listener';
-import router from '@/router';
+import router from '@/routes/router';
 
 const queryClient = new QueryClient();
 
