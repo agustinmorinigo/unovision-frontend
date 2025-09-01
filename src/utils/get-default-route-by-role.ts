@@ -1,27 +1,29 @@
+import { RoleName } from '@/entities/roles';
 import useUserStore from '@/modules/auth/stores/use-user-store';
 
-// DESPUÉS VER SI VA ACÁ. CAPAZ VA EN OTRO MÓDULO.
-// Que NO devuelva string, que devuelva un type definido.
 export default function getDefaultRouteByRole(): string {
-  const role = useUserStore.getState().user?.role;
+  const { isAuthenticated, selectedRole } = useUserStore.getState();
 
-  if (!role) {
+  if (!isAuthenticated) {
     return '/login';
   }
 
-  return '/accounting/expenses';
+  if (!selectedRole) {
+    return '/validation';
+  }
 
-  // EL ROLE VIENE DEL PROFILE DEL USER.
-  // switch (role) {
-  //   case 'admin':
-  //     return '/user-management/children1';
-  //   case 'accountant':
-  //     return '/accounting/expenses';
-  //   case 'attendance':
-  //     return '/attendance/children1';
-  //   // case 'user':
-  //   // return '/user/dashboard';
-  //   default:
-  //     return '/login'; // Ruta por defecto si el rol no coincide con ninguno conocido
-  // }
+  switch (selectedRole?.name) {
+    case RoleName.Admin:
+      return '/user-management/children1';
+    case RoleName.Employee:
+      return '/employee';
+    case RoleName.Patient:
+      return '/patient';
+    case RoleName.Doctor:
+      return '/doctor';
+    case RoleName.Accountant:
+      return '/accounting/expenses';
+    default:
+      return '/login';
+  }
 }

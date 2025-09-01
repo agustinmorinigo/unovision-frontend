@@ -3,13 +3,11 @@ import UserOrganizationsGuard from '@/guards/user-organizations-guard';
 import useUserStore from '@/modules/auth/stores/use-user-store';
 
 export default function PrivateGuard() {
-  const { isAuthenticated, user } = useUserStore();
+  const { isAuthenticated, userId } = useUserStore();
 
-  if (!isAuthenticated) {
+  if (!isAuthenticated || !userId) {
     return <Navigate to="/login" replace />;
   }
 
-  if (!user) return null;
-
-  return <UserOrganizationsGuard user={user} />;
+  return <UserOrganizationsGuard userId={userId} />;
 }

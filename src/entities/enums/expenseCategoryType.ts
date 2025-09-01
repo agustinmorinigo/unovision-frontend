@@ -1,0 +1,15 @@
+export enum ExpenseCategoryType {
+  operating,
+  service,
+  supply,
+  miscellaneous,
+  extraordinary,
+  salary,
+  daily,
+  fuel,
+  perception,
+  stationery,
+  cleaning,
+  maintenance,
+  capture,
+}

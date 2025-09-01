@@ -1,73 +1,53 @@
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 import { Layout } from '@/modules/app/layout/layout';
-import type { User } from '@/modules/auth/entities/user';
-import useGetUserOrganizationsQuery from '@/modules/auth/queries/use-get-user-organizations-query';
+import useGetUserDataQuery from '@/modules/auth/queries/use-get-user-data-query';
 import useSignOutMutation from '@/modules/auth/queries/use-sign-out-mutation';
 import useUserStore from '@/modules/auth/stores/use-user-store';
-import useGetOrganizationsQuery from '@/shared/organizations/queries/use-get-organizations-query';
 
 interface UserOrganizationGuardProps {
-  user: User;
+  userId: string;
 }
 
-export default function UserOrganizationsGuard({ user }: UserOrganizationGuardProps) {
-  const getOrgsQuery = useGetOrganizationsQuery();
-  const getUserOrgsQuery = useGetUserOrganizationsQuery(user.id);
+export default function UserOrganizationsGuard({ userId }: UserOrganizationGuardProps) {
+  const { isPending, isError, data } = useGetUserDataQuery(userId);
   const { mutate: signOut } = useSignOutMutation();
-  const { setUserOrgs, setSelectedUserOrg } = useUserStore();
-  const isSomethingPending = getOrgsQuery.isPending || getUserOrgsQuery.isPending;
-  const isSomethingError = getOrgsQuery.isError || getUserOrgsQuery.isError;
-  const isGetOrgsQueryDataEmpty = getOrgsQuery.data?.length === 0;
-  const isGetUserOrgsQueryDataEmpty = getUserOrgsQuery.data?.length === 0;
+  const { setOrganizations, setRoles, setSelectedRole, setProfile } = useUserStore();
 
   useEffect(() => {
-    if (!getOrgsQuery.data || !getUserOrgsQuery.data) return;
+    if (!data) return;
 
-    if (isGetOrgsQueryDataEmpty) {
-      signOut();
-      toast.error('No hay organizaciones disponibles. Contacte con el administrador del sistema.');
-      return;
-    }
-
-    if (isGetUserOrgsQueryDataEmpty) {
+    if (data.organizations.length === 0) {
       signOut();
       toast.error('No pertenece a ninguna organización. Ha sido desconectado.');
       return;
     }
 
-    const userOrgs = getOrgsQuery.data.filter((org) =>
-      getUserOrgsQuery.data.some((userOrg) => userOrg.organizationId === org.id),
-    );
+    if (data.roles.length === 0) {
+      signOut();
+      toast.error('No tiene roles asignados. Ha sido desconectado.');
+      return;
+    }
 
-    setUserOrgs(userOrgs);
-    setSelectedUserOrg(userOrgs[0]);
-  }, [
-    getOrgsQuery.data,
-    getUserOrgsQuery.data,
-    signOut,
-    setUserOrgs,
-    setSelectedUserOrg,
-    isGetOrgsQueryDataEmpty,
-    isGetUserOrgsQueryDataEmpty,
-  ]);
+    if (isError) {
+      signOut();
+      toast.error('Ocurrió un error al obtener los datos del usuario. Ha sido desconectado.');
+      return;
+    }
 
-  if (isSomethingPending) {
+    setProfile(data.profile);
+    setOrganizations(data.organizations);
+    setRoles(data.roles);
+
+    // Acá creo q tengo que hacer un redirect a /select-profile o /select-role o algo así. Siempre y cuando el user tenga más de un ROLE.
+
+    setSelectedRole(data.roles[0]);
+  }, [data, isError, signOut, setProfile, setOrganizations, setRoles, setSelectedRole]);
+
+  if (isPending) {
     return (
       <div className="bg-primary flex items-center justify-center size-full text-primary-foreground">Cargando...</div>
     );
-  }
-
-  if (isSomethingError) {
-    return (
-      <div className="bg-primary flex items-center justify-center size-full text-primary-foreground">
-        Error al obtener las organizaciones del usuario. Por favor intente más tarde...
-      </div>
-    );
-  }
-
-  if (isGetOrgsQueryDataEmpty || isGetUserOrgsQueryDataEmpty) {
-    return null;
   }
 
   return <Layout />;
