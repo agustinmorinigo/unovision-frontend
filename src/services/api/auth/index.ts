@@ -1,9 +1,9 @@
-import signInWithOAuth from '@/services/api/auth/sign-in-with-oauth';
-import signInWithPassword from '@/services/api/auth/sign-in-with-password';
+import signInWithOTP from '@/services/api/auth/sign-in-with-otp';
 import signOut from '@/services/api/auth/sign-out';
+import verifyOTP from '@/services/api/auth/verify-otp';
 
 export const auth = {
-  signInWithPassword,
+  signInWithOTP,
   signOut,
-  signInWithOAuth,
+  verifyOTP,
 };
