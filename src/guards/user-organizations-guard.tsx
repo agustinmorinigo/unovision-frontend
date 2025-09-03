@@ -39,8 +39,6 @@ export default function UserOrganizationsGuard({ userId }: UserOrganizationGuard
     setOrganizations(data.organizations);
     setRoles(data.roles);
 
-    // Acá creo q tengo que hacer un redirect a /select-profile o /select-role o algo así. Siempre y cuando el user tenga más de un ROLE.
-
     if (!selectedRole) {
       setSelectedRole(data.roles[0]);
     }

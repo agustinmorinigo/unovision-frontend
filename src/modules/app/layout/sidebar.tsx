@@ -1,6 +1,6 @@
 import clsx from 'clsx';
-import { ListTodo, Receipt } from 'lucide-react';
-import { Link } from 'react-router';
+import { ListTodo } from 'lucide-react';
+import { Link, useLocation } from 'react-router';
 import {
   Sidebar as ShadcnSidebar,
   SidebarContent,
@@ -12,31 +12,17 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import useSidebarActiveItem from '@/modules/app/hooks/use-sidebar-active-item';
-
-const items = [
-  {
-    label: 'Gastos',
-    path: '/accounting/expenses',
-    icon: Receipt,
-    id: 'accounting-expenses',
-  },
-  // {
-  //   label: 'Vencimientos',
-  //   path: '/accounting/expirations',
-  //   icon: Calendar,
-  //   id: 'accounting-expirations',
-  // },
-  // {
-  //   label: 'Estadísticas',
-  //   path: '/accounting/statistics',
-  //   icon: ChartNoAxesCombined,
-  //   id: 'accounting-statistics',
-  // },
-];
+import { getSidebarGroupsByRole } from '@/modules/app/config/sidebar-groups';
+import isSidebarItemActive from '@/modules/app/utils/is-sidebar-item-active';
+import useUserStore from '@/modules/auth/stores/use-user-store';
 
 export default function Sidebar() {
-  const { activeItemId, setActiveItemId } = useSidebarActiveItem(items);
+  const { selectedRole } = useUserStore();
+  const location = useLocation();
+
+  if (!selectedRole) return null;
+
+  const visibleGroups = getSidebarGroupsByRole(selectedRole.name);
 
   return (
     <ShadcnSidebar>
@@ -53,30 +39,35 @@ export default function Sidebar() {
       </SidebarHeader>
 
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel>Contabilidad</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.id}>
-                  <SidebarMenuButton asChild>
-                    <Link
-                      to={'#'} // to={item.path}
-                      onClick={() => setActiveItemId(item.id)}
-                      className={clsx(
-                        'flex items-center gap-2 px-2 py-1 rounded-md hover:bg-muted',
-                        activeItemId === item.id && 'bg-primary text-primary-foreground',
-                      )}
-                    >
-                      <item.icon className="h-4 w-4" />
-                      <span className="text-sm">{item.label}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        {visibleGroups.map((group) => (
+          <SidebarGroup key={group.label}>
+            <SidebarGroupLabel>{group.label}</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {group.items.map((item) => {
+                  const isActive = isSidebarItemActive(item.path, location.pathname);
+
+                  return (
+                    <SidebarMenuItem key={item.path}>
+                      <SidebarMenuButton asChild>
+                        <Link
+                          to={item.path}
+                          className={clsx(
+                            'flex items-center gap-2 px-2 py-1 rounded-md hover:bg-muted',
+                            isActive && 'bg-primary text-primary-foreground hover:bg-primary/90',
+                          )}
+                        >
+                          <item.icon className="h-4 w-4" />
+                          <span className="text-sm">{item.label}</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  );
+                })}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        ))}
       </SidebarContent>
     </ShadcnSidebar>
   );

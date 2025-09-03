@@ -11,19 +11,11 @@ const attendanceRoutesConfig: RouteObject = {
   children: [
     {
       index: true,
-      element: <Navigate to="children1" replace />,
+      element: <Navigate to="report" replace />,
     },
     {
-      path: 'children1',
-      element: <p>ATTENDANCE children1 PAGE...</p>,
-    },
-    {
-      path: 'children2',
-      element: <p>ATTENDANCE children2 PAGE...</p>,
-    },
-    {
-      path: 'children3',
-      element: <p>ATTENDANCE children3 PAGE...</p>,
+      path: 'report',
+      element: <p>ATTENDANCE report PAGE...</p>,
     },
     {
       path: '*',

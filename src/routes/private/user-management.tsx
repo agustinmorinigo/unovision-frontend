@@ -11,19 +11,11 @@ const userManagementRoutesConfig: RouteObject = {
   children: [
     {
       index: true,
-      element: <Navigate to="children1" replace />,
+      element: <Navigate to="dashboard" replace />,
     },
     {
-      path: 'children1',
-      element: <p>USER MANAGEMENT children1 PAGE...</p>,
-    },
-    {
-      path: 'children2',
-      element: <p>USER MANAGEMENT children2 PAGE...</p>,
-    },
-    {
-      path: 'children3',
-      element: <p>USER MANAGEMENT children3 PAGE...</p>,
+      path: 'dashboard',
+      element: <p>USER MANAGEMENT DASHBOARD PAGE...</p>,
     },
     {
       path: '*',
