@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from 'react-router';
 import type { RoleName } from '@/entities/roles';
 import useUserStore from '@/modules/auth/stores/use-user-store';
-import getDefaultRouteByRole from '@/utils/get-default-route-by-role';
+import getDefaultRouteByRole from '@/modules/roles/utils/get-default-route-by-role';
 
 interface RoleGuardProps {
   allowedRoles: RoleName[];

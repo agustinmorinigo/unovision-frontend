@@ -14,7 +14,7 @@ export default function getDefaultRouteByRole(): string {
 
   switch (selectedRole?.name) {
     case RoleName.Admin:
-      return '/user-management/children1';
+      return '/user-management/dashboard';
     case RoleName.Employee:
       return '/employee';
     case RoleName.Patient:

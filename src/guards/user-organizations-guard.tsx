@@ -12,7 +12,7 @@ interface UserOrganizationGuardProps {
 export default function UserOrganizationsGuard({ userId }: UserOrganizationGuardProps) {
   const { isPending, isError, data } = useGetUserDataQuery(userId);
   const { mutate: signOut } = useSignOutMutation();
-  const { setOrganizations, setRoles, setSelectedRole, setProfile } = useUserStore();
+  const { setOrganizations, setRoles, setSelectedRole, setProfile, selectedRole } = useUserStore();
 
   useEffect(() => {
     if (!data) return;
@@ -39,10 +39,10 @@ export default function UserOrganizationsGuard({ userId }: UserOrganizationGuard
     setOrganizations(data.organizations);
     setRoles(data.roles);
 
-    // Acá creo q tengo que hacer un redirect a /select-profile o /select-role o algo así. Siempre y cuando el user tenga más de un ROLE.
-
-    setSelectedRole(data.roles[0]);
-  }, [data, isError, signOut, setProfile, setOrganizations, setRoles, setSelectedRole]);
+    if (!selectedRole) {
+      setSelectedRole(data.roles[0]);
+    }
+  }, [data, isError, signOut, setProfile, setOrganizations, setRoles, setSelectedRole, selectedRole]);
 
   if (isPending) {
     return (
