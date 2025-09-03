@@ -1,39 +1,48 @@
 import { persist } from 'zustand/middleware';
 import create from '@/config/store';
-import type { User } from '@/modules/auth/entities/user';
-import type { Organization } from '@/shared/organizations/entities';
+import type { Organization, Profile, Role } from '@/entities';
 
 interface State {
+  userId: string | null;
+  organizations: Organization[];
+  roles: Role[];
+  selectedRole: Role | null;
+  profile: Profile | null;
   isAuthenticated: boolean;
-  user: User | null;
-  userOrgs: Organization[];
-  selectedUserOrg: Organization | null;
 }
 
 interface Actions {
-  setUser: (user: User | null) => void;
-  setUserOrgs: (userOrgs: Organization[]) => void;
-  setSelectedUserOrg: (org: Organization | null) => void;
+  setUserId: (userId: string | null) => void;
+  setOrganizations: (organizations: Organization[]) => void;
+  setRoles: (roles: Role[]) => void;
+  setSelectedRole: (role: Role | null) => void;
+  setProfile: (profile: Profile | null) => void;
 }
 
 const useUserStore = create<State & Actions>()(
   persist(
     (set) => ({
+      userId: null,
+      organizations: [],
+      roles: [],
+      selectedRole: null,
+      profile: null,
       isAuthenticated: false,
-      user: null,
-      userOrgs: [],
-      selectedUserOrg: null,
-      setUser: (user) => set({ user, isAuthenticated: !!user }),
-      setUserOrgs: (userOrgs) => set({ userOrgs }),
-      setSelectedUserOrg: (org) => set({ selectedUserOrg: org }),
+      setUserId: (userId) => set({ userId, isAuthenticated: !!userId }),
+      setOrganizations: (organizations) => set({ organizations }),
+      setRoles: (roles) => set({ roles }),
+      setSelectedRole: (selectedRole) => set({ selectedRole }),
+      setProfile: (profile) => set({ profile }),
     }),
     {
-      name: 'userStore',
+      name: 'user-store',
       partialize: (state) => ({
+        userId: state.userId,
+        organizations: state.organizations,
+        roles: state.roles,
+        selectedRole: state.selectedRole,
+        profile: state.profile,
         isAuthenticated: state.isAuthenticated,
-        user: state.user,
-        userOrgs: state.userOrgs,
-        selectedUserOrg: state.selectedUserOrg,
       }),
     },
   ),

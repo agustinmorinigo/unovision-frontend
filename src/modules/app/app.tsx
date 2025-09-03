@@ -5,7 +5,13 @@ import { ThemeProvider } from '@/modules/app/providers/theme-provider';
 import useAuthListener from '@/modules/auth/hooks/use-auth-listener';
 import router from '@/routes/router';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 export default function App() {
   useAuthListener();

@@ -1,17 +1,21 @@
 import { Navigate, Outlet } from 'react-router';
+import type { RoleName } from '@/entities/roles';
 import useUserStore from '@/modules/auth/stores/use-user-store';
 import getDefaultRouteByRole from '@/utils/get-default-route-by-role';
 
 interface RoleGuardProps {
-  allowedRoles: string[]; // VA A SER UN ARRAY DE ROLES PERMITIDOS ENUMS.
+  allowedRoles: RoleName[];
 }
 
 export default function RoleGuard(props: RoleGuardProps) {
   const { allowedRoles } = props;
-  const { user } = useUserStore();
-  const userRole = 'accountant'; // Aquí deberías obtener el rol del usuario actual, por ejemplo: user.role en base al profile.
+  const { selectedRole } = useUserStore();
 
-  if (!allowedRoles.includes(userRole)) {
+  if (!selectedRole) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (!allowedRoles.includes(selectedRole.name)) {
     return <Navigate to={getDefaultRouteByRole()} replace />;
   }
 
