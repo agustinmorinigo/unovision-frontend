@@ -1,7 +1,7 @@
 import { Navigate, type RouteObject } from 'react-router';
 import { RoleName } from '@/entities/roles';
 import RoleGuard from '@/guards/role-guard';
-import getDefaultRouteByRole from '@/utils/get-default-route-by-role';
+import getDefaultRouteByRole from '@/modules/roles/utils/get-default-route-by-role';
 
 const allowedRoles = [RoleName.Accountant];
 
