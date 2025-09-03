@@ -1,5 +1,5 @@
 import { Navigate, type RouteObject } from 'react-router';
-import { RoleName } from '@/entities/roles';
+import { RoleName } from '@/client/entities';
 import RoleGuard from '@/guards/role-guard';
 import getDefaultRouteByRole from '@/modules/roles/utils/get-default-route-by-role';
 

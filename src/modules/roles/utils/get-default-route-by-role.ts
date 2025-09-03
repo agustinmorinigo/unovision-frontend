@@ -1,4 +1,4 @@
-import { RoleName } from '@/entities/roles';
+import { RoleName } from '@/client/entities';
 import useUserStore from '@/modules/auth/stores/use-user-store';
 
 export default function getDefaultRouteByRole(): string {

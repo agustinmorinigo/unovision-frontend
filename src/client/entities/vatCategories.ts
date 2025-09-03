@@ -1,4 +1,4 @@
-import type { VatCategoryType } from '@/entities/enums/vatCategoryType';
+import type { VatCategoryType } from '@/client/entities';
 
 export interface VatCategory {
   id: string;
