@@ -1,6 +1,6 @@
 import { Navigate, type RouteObject } from 'react-router';
 import getDefaultRouteByRole from '@/modules/roles/utils/get-default-route-by-role';
-import ValidationPage from '@/pages/validation';
+import ValidationPage from '@/pages/validation-page';
 import accountingRoutesConfig from '@/routes/private/accounting';
 import attendanceRoutesConfig from '@/routes/private/attendance';
 import userManagementRoutesConfig from '@/routes/private/user-management';

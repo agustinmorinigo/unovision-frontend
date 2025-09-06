@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from 'react-router';
-import type { RoleName } from '@/entities/roles';
+import type { RoleName } from '@/client/entities';
 import useUserStore from '@/modules/auth/stores/use-user-store';
 import getDefaultRouteByRole from '@/modules/roles/utils/get-default-route-by-role';
 

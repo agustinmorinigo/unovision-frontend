@@ -1,5 +1,5 @@
 import { ChartNoAxesCombined, ListChecks, type LucideIcon, NotepadText, Receipt, UserRoundCog } from 'lucide-react';
-import { RoleName } from '@/entities';
+import { RoleName } from '@/client/entities';
 
 interface SidebarGroup {
   label: string;

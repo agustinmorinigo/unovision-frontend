@@ -1,5 +1,5 @@
 import { type UseQueryResult, useQuery } from '@tanstack/react-query';
-import type { DocumentType, Gender, Organization, Profile, Role } from '@/entities';
+import type { DocumentType, Gender, Organization, Profile, Role } from '@/client/entities';
 import api from '@/services/api';
 
 export type UseGetUserDataQueryResponse = UseQueryResult<

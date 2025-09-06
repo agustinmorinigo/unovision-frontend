@@ -1,4 +1,4 @@
-import type { ExpenseStatus } from '@/entities/enums/expenseStatus';
+import type { ExpenseStatus } from '@/client/entities';
 
 export interface Expense {
   id: string;

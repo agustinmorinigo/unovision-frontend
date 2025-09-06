@@ -1,4 +1,4 @@
-import type { DocumentType, Gender } from '@/entities';
+import type { DocumentType, Gender } from '@/client/entities';
 
 export interface Profile {
   id: string;

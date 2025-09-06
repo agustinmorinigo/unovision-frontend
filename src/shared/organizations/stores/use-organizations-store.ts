@@ -1,6 +1,6 @@
 import { persist } from 'zustand/middleware';
+import type { Organization } from '@/client/entities';
 import create from '@/config/store';
-import type { Organization } from '@/shared/organizations/entities';
 
 interface State {
   organizations: Organization[];

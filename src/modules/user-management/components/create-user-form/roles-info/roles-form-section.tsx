@@ -1,0 +1,86 @@
+import { lazy, Suspense } from 'react';
+import { Controller, useFormContext } from 'react-hook-form';
+import { RoleName } from '@/client/entities';
+import { Checkbox } from '@/components/ui/checkbox';
+import FormSectionLayout from '@/modules/user-management/components/create-user-form/form-section-layout';
+import type { CreateUserFormSchema } from '@/modules/user-management/schemas/create-user-form-schema';
+import { rolesAsOptions } from '@/shared/users/constants/roles';
+
+const EmployeeForm = lazy(() => import('@/modules/user-management/components/create-user-form/roles-info/employee-info/employee-form'));
+const PatientForm = lazy(() => import('@/modules/user-management/components/create-user-form/roles-info/patient-form'));
+const DoctorForm = lazy(() => import('@/modules/user-management/components/create-user-form/roles-info/doctor-form'));
+
+const roleOptions = rolesAsOptions.map((role) => {
+  let FormComponent: React.LazyExoticComponent<React.FC> | null = null;
+
+  if (role.value === RoleName.Employee) {
+    FormComponent = EmployeeForm;
+  } else if (role.value === RoleName.Patient) {
+    FormComponent = PatientForm;
+  } else if (role.value === RoleName.Doctor) {
+    FormComponent = DoctorForm;
+  }
+
+  return {
+    ...role,
+    FormComponent,
+  };
+});
+
+export default function RolesFormSection() {
+  const {
+    control,
+    formState: { errors },
+  } = useFormContext<CreateUserFormSchema>();
+
+  return (
+    <FormSectionLayout title="Roles" description="Seleccioná los roles que tendrá el usuario" hasErrors={!!errors.roles}>
+      <Controller
+        name="roles"
+        control={control}
+        render={({ field }) => (
+          <>
+            {roleOptions.map((roleInfo) => {
+              const isChecked = field.value?.includes(roleInfo.value);
+
+              return (
+                <div className="flex flex-col gap-6" key={roleInfo.value}>
+                  <div className="flex items-start gap-3">
+                    <div className="shrink-0">
+                      <Checkbox
+                        id={roleInfo.value}
+                        checked={isChecked}
+                        onCheckedChange={(checked) => {
+                          if (checked) {
+                            field.onChange([...field.value, roleInfo.value]);
+                          } else {
+                            field.onChange(field.value.filter((r) => r !== roleInfo.value));
+                          }
+                        }}
+                      />
+                    </div>
+                    <div className="w-full flex flex-col items-start select-none">
+                      <label htmlFor={roleInfo.value} className="text-sm cursor-pointer">
+                        <p>{roleInfo.label}</p>
+                        <p className="text-gray-500">{roleInfo.description}</p>
+                      </label>
+                    </div>
+                  </div>
+                  {isChecked && roleInfo.FormComponent && (
+                    <div className="my-3">
+                      <Suspense fallback={<p>Cargando...</p>}>
+                        <roleInfo.FormComponent />
+                      </Suspense>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </>
+        )}
+      />
+
+      {errors.roles && <span className="text-destructive text-xs">{errors.roles.message}</span>}
+    </FormSectionLayout>
+  );
+}
