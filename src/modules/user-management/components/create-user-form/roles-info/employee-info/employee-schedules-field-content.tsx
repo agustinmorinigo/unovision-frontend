@@ -4,7 +4,9 @@ import type { CreateUserFormSchema } from '@/modules/user-management/schemas/cre
 import isoWeekDays from '@/shared/date-time/constants/iso-week-days';
 import ScheduleDayField from './schedule-day-field';
 
-type Schedule = Omit<EmployeeSchedule, 'id' | 'employeeId'>;
+type Schedule = Omit<EmployeeSchedule, 'id' | 'employeeId'> & {
+  isActive: boolean;
+};
 
 interface Props {
   field: ControllerRenderProps<CreateUserFormSchema, 'employeeInfo.schedules'>;
@@ -13,17 +15,15 @@ interface Props {
 
 export default function EmployeeSchedulesFieldContent({ field, errors }: Props) {
   const handleDayToggle = (weekday: number, checked: boolean) => {
-    if (checked) {
-      const newSchedule: Schedule = {
-        weekday,
-        startTime: '09:00',
-        endTime: '17:00',
-        isRemote: false,
-      };
-      field.onChange([...field.value, newSchedule]);
-    } else {
-      field.onChange(field.value.filter((s: Schedule) => s.weekday !== weekday));
-    }
+
+    const newValues = field.value.map(schedule => {
+      return schedule.weekday === weekday ? {
+        ...schedule,
+        isActive: checked,
+      } : schedule
+    })
+    
+    field.onChange(newValues);
   };
 
   const handleTimeChange = (weekday: number, key: 'startTime' | 'endTime', value: string) => {

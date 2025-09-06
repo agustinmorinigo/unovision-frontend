@@ -1,19 +1,14 @@
-/* globals.css */
 @layer base {
-  /* Hace que controles nativos (incl. scrollbars) sigan el tema */
   :root { color-scheme: light; }
   .dark { color-scheme: dark; }
 
-  /* Fondo base para evitar franjas blancas detrás del modal/scroll */
   html, body { background-color: hsl(var(--background)); }
 
-  /* Firefox */
   * {
     scrollbar-width: thin;
     scrollbar-color: hsl(var(--muted-foreground) / 0.6) transparent;
   }
 
-  /* WebKit (Chrome/Edge/Safari) */
   *::-webkit-scrollbar { width: 6px; height: 6px; }
   *::-webkit-scrollbar-track { background: transparent !important; }
   *::-webkit-scrollbar-corner { background: transparent !important; }
@@ -21,7 +16,6 @@
   *::-webkit-scrollbar-thumb {
     background: hsl(var(--muted-foreground) / 0.6);
     border-radius: 9999px;
-    /* Quita el halo/blanco alrededor del thumb en Chromium */
     background-clip: padding-box;
     border: 2px solid transparent;
   }
@@ -29,4 +23,6 @@
   *::-webkit-scrollbar-thumb:hover {
     background: hsl(var(--foreground) / 0.7);
   }
+
+  label { cursor: pointer; }
 }

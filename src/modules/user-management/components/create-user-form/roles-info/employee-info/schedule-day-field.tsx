@@ -3,7 +3,9 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
-type Schedule = Omit<EmployeeSchedule, 'id' | 'employeeId'>;
+type Schedule = Omit<EmployeeSchedule, 'id' | 'employeeId'> & {
+  isActive: boolean;
+};
 
 interface Props {
   day: { label: string; value: number };
@@ -22,48 +24,39 @@ export default function ScheduleDayField({
   onTimeChange,
   onRemoteToggle,
 }: Props) {
-  const active = !!schedule;
+  const active = schedule?.isActive ?? false;
 
   return (
     <div>
       <div
-        onClickCapture={(e) => {
-          const target = e.target as HTMLElement;
-          if (
-            target.tagName === 'INPUT' ||
-            target.tagName === 'LABEL' ||
-            target.closest('button')
-          ) {
-            return;
-          }
-          onToggle(day.value, !active);
-        }}
-        className={`rounded-lg border p-3 transition cursor-pointer ${active
+        className={`rounded-lg border p-3 ${active
             ? 'bg-background border-primary shadow-sm'
             : 'bg-muted text-muted-foreground border-muted hover:border-primary/40'
           }`}
       >
-        <div className="flex items-center gap-3">
-          <Checkbox
-            id={`weekday-${day.value}`}
-            checked={active}
-            onCheckedChange={(checked) => onToggle(day.value, checked as boolean)}
-          />
-          <Label
-            htmlFor={`weekday-${day.value}`}
-            className={`font-medium ${!active ? 'opacity-70' : ''}`}
-          >
-            {day.label}
-          </Label>
+        <div className="flex items-center justify-between gap-3">
+          <div className='flex items-center gap-2 shrink-0'>
+            <Checkbox
+              id={`weekday-${day.value}`}
+              checked={active}
+              onCheckedChange={(checked) => onToggle(day.value, checked as boolean)}
+            />
+            <Label
+              htmlFor={`weekday-${day.value}`}
+              className={`font-medium min-h-[36px] ${!active ? 'opacity-70' : ''}`}
+            >
+              {day.label}
+            </Label>
+          </div>
 
           {active && schedule && (
-            <div className="flex items-center gap-2 flex-1">
+            <div className="w-full flex items-center justify-end gap-2">
               <Input
                 type="time"
                 step="60"
                 value={schedule.startTime}
                 onChange={(e) => onTimeChange(day.value, 'startTime', e.target.value)}
-                className="w-28"
+                className="w-fit"
               />
               <span className="text-sm">a</span>
               <Input
@@ -71,7 +64,7 @@ export default function ScheduleDayField({
                 step="60"
                 value={schedule.endTime}
                 onChange={(e) => onTimeChange(day.value, 'endTime', e.target.value)}
-                className="w-28"
+                className="w-fit"
               />
             </div>
           )}

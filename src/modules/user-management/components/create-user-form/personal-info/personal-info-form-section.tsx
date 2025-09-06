@@ -26,57 +26,63 @@ export default function PersonalInfoFormSection() {
       description="Completá los datos básicos del usuario"
       hasErrors={hasErrors}
     >
-      <FormField
-        id="name"
-        label="Nombre"
-        required
-        register={register('name')}
-        error={errors.name}
-      />
+      <div className='w-full flex items-start justify-between gap-4'>
+        <FormField
+          id="name"
+          label="Nombre"
+          required
+          register={register('name')}
+          error={errors.name}
+        />
 
-      <FormField
-        id="lastName"
-        label="Apellido"
-        required
-        register={register('lastName')}
-        error={errors.lastName}
-      />
+        <FormField
+          id="lastName"
+          label="Apellido"
+          required
+          register={register('lastName')}
+          error={errors.lastName}
+        />
+      </div>
 
-      <FormField
-        id="birthDate"
-        label="Fecha de nacimiento"
-        type="date"
-        required
-        register={register('birthDate')}
-        error={errors.birthDate}
-      />
+      <div className='w-full flex items-start justify-between gap-4'>
+        <FormField
+          id="birthDate"
+          label="Fecha de nacimiento"
+          type="date"
+          required
+          register={register('birthDate')}
+          error={errors.birthDate}
+        />
+
+        <FormField
+          id="email"
+          label="Correo electrónico"
+          type="email"
+          required
+          register={register('email')}
+          error={errors.email}
+        />
+      </div>
 
       <DocumentField />
 
-      <FormField
-        id="email"
-        label="Correo electrónico"
-        type="email"
-        required
-        register={register('email')}
-        error={errors.email}
-      />
+      <div className='w-full flex items-start justify-between gap-4'>
+        <FormField
+          id="phone"
+          label="Teléfono"
+          type="text"
+          register={register('phone')}
+          error={errors.phone}
+        />
 
-      <FormField
-        id="phone"
-        label="Teléfono"
-        type="text"
-        register={register('phone')}
-        error={errors.phone}
-      />
-
-      <FormField
-        id="address"
-        label="Dirección"
-        type="text"
-        register={register('address')}
-        error={errors.address}
-      />
+        <FormField
+          id="address"
+          label="Dirección"
+          type="text"
+          register={register('address')}
+          error={errors.address}
+        />
+      </div>
 
       <GenderField />
     </FormSectionLayout>
