@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { forwardRef, useImperativeHandle } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { ContractType, DocumentType } from '@/client/entities';
+import { ContractType, DocumentType, RoleName } from '@/client/entities';
 import OrganizationsFormSection from '@/modules/user-management/components/create-user-form/organizations-info/organizations-form-section';
 import PersonalInfoFormSection from '@/modules/user-management/components/create-user-form/personal-info/personal-info-form-section';
 import RolesFormSection from '@/modules/user-management/components/create-user-form/roles-info/roles-form-section';
@@ -76,7 +76,22 @@ const CreateUserForm = forwardRef<CreateUserFormRef>((_, ref) => {
   const { handleSubmit } = methods;
 
   const onSubmit = async (formValues: CreateUserFormSchema) => {
-    console.log(formValues);
+    const { roles } = formValues;
+
+    const cleanedValues: CreateUserFormSchema = {
+      ...formValues,
+      employeeInfo: roles.includes(RoleName.Employee)
+        ? formValues.employeeInfo
+        : undefined,
+      patientInfo: roles.includes(RoleName.Patient)
+        ? formValues.patientInfo
+        : undefined,
+      doctorInfo: roles.includes(RoleName.Doctor)
+        ? formValues.doctorInfo
+        : undefined,
+    };
+
+    console.log('formValues cleaned: ', cleanedValues);
   };
 
   useImperativeHandle(ref, () => ({
