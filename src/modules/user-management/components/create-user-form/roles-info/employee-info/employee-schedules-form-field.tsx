@@ -1,16 +1,15 @@
 import { Controller, useFormContext } from 'react-hook-form';
+import FormFieldLayout from '@/components/common/form-field-layout';
 import EmployeeSchedulesFieldContent from '@/modules/user-management/components/create-user-form/roles-info/employee-info/employee-schedules-field-content';
 import type { CreateUserFormSchema } from '@/modules/user-management/schemas/create-user-form-schema';
 
 export default function EmployeeSchedulesFormField() {
   const { formState: { errors }, control } = useFormContext<CreateUserFormSchema>();
-  
+  const error = errors.employeeInfo?.schedules && errors.employeeInfo.schedules.type === 'custom' ? errors.employeeInfo.schedules.message : '';
+
   return (
-    <div className="w-full flex flex-col gap-1">
-      <label htmlFor="employeeInfo.schedules" className="text-sm">
-        Horarios de trabajo*
-      </label>
-      <div className="w-full overflow-hidden">
+    <FormFieldLayout label={'Horarios de trabajo'} required={true} id={'schedules'} error={error}>
+      <div className='w-full overflow-hidden flex flex-col gap-4'>
         <p className="text-xs">Configura horarios específicos para cada día de la semana</p>
 
         <div>
@@ -18,14 +17,10 @@ export default function EmployeeSchedulesFormField() {
             name="employeeInfo.schedules"
             control={control}
             defaultValue={[]}
-            render={({ field }) => <EmployeeSchedulesFieldContent field={field} errors={errors} /> }
+            render={({ field }) => <EmployeeSchedulesFieldContent field={field} errors={errors} />}
           />
         </div>
-
-        {errors.employeeInfo?.schedules && errors.employeeInfo.schedules.type === 'too_small' && (
-          <p className="mt-1 text-xs text-destructive">{errors.employeeInfo.schedules.message}</p>
-        )}
       </div>
-    </div>
-  )
+    </FormFieldLayout>
+  );
 }

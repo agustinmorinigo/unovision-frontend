@@ -1,4 +1,4 @@
 export enum ExpenseStatus {
-  paid,
-  pending,
+  paid = 'paid',
+  pending = 'pending',
 }

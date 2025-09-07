@@ -26,7 +26,7 @@ export default function AddUserModal() {
 
   return (
     <Dialog open={isOpen} onOpenChange={close}>
-      <DialogContent className="h-auto max-h-[95%] w-auto max-w-[95%] overflow-hidden gap-12 flex flex-col">
+      <DialogContent className="h-auto max-h-[95%] w-auto min-w-[500px] max-w-[95%] overflow-hidden gap-12 flex flex-col">
 
         <DialogHeader className='shrink-0 h-auto'>
           <DialogTitle>Crear usuario</DialogTitle>

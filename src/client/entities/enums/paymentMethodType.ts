@@ -1,9 +1,9 @@
 export enum PaymentMethodType {
-  cash,
-  bna,
-  mp,
-  galicia,
-  bbva,
-  uala,
-  brubank,
+  cash = 'cash',
+  bna = 'bna',
+  mp = 'mp',
+  galicia = 'galicia',
+  bbva = 'bbva',
+  uala = 'uala',
+  brubank = 'brubank',
 }

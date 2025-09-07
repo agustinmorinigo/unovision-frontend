@@ -46,39 +46,73 @@ export const createUserFormSchema = z
     // Roles.
     roles: z.array(z.enum(RoleName)).min(1, 'Se requiere al menos un rol'),
     // Conditional subforms.
-    employeeInfo: employeeInfoSchema.optional(),
-    patientInfo: patientInfoSchema.optional(),
-    doctorInfo: doctorInfoSchema.optional(),
+    employeeInfo: z.any().optional(),
+    patientInfo: z.any().optional(),
+    doctorInfo: z.any().optional(),
   })
-  .refine(
-    (data) => {
-      if (data.roles.includes(RoleName.Employee)) return !!data.employeeInfo;
-      return true;
-    },
-    {
-      message: 'Debes completar la información del empleado',
-      path: ['employeeInfo'],
-    },
-  )
-  .refine(
-    (data) => {
-      if (data.roles.includes(RoleName.Patient)) return !!data.patientInfo;
-      return true;
-    },
-    {
-      message: 'Debes completar la información del paciente',
-      path: ['patientInfo'],
-    },
-  )
-  .refine(
-    (data) => {
-      if (data.roles.includes(RoleName.Doctor)) return !!data.doctorInfo;
-      return true;
-    },
-    {
-      message: 'Debes completar la información del doctor',
-      path: ['doctorInfo'],
-    },
-  );
+  .superRefine((data, ctx) => {
+    // Validate employeeInfo only if the Employee role is present
+    if (data.roles.includes(RoleName.Employee)) {
+      if (!data.employeeInfo) {
+        ctx.addIssue({
+          code: 'custom',
+          message: 'Debes completar la información del empleado',
+          path: ['employeeInfo'],
+        });
+      } else {
+        const result = employeeInfoSchema.safeParse(data.employeeInfo);
+        if (!result.success) {
+          result.error.issues.forEach((issue) => {
+            ctx.addIssue({
+              ...issue,
+              path: ['employeeInfo', ...issue.path],
+            });
+          });
+        }
+      }
+    }
+
+    // Validate patientInfo only if the Patient role is present
+    if (data.roles.includes(RoleName.Patient)) {
+      if (!data.patientInfo) {
+        ctx.addIssue({
+          code: 'custom',
+          message: 'Debes completar la información del paciente',
+          path: ['patientInfo'],
+        });
+      } else {
+        const result = patientInfoSchema.safeParse(data.patientInfo);
+        if (!result.success) {
+          result.error.issues.forEach((issue) => {
+            ctx.addIssue({
+              ...issue,
+              path: ['patientInfo', ...issue.path],
+            });
+          });
+        }
+      }
+    }
+
+    // Validate doctorInfo only if the Doctor role is present
+    if (data.roles.includes(RoleName.Doctor)) {
+      if (!data.doctorInfo) {
+        ctx.addIssue({
+          code: 'custom',
+          message: 'Debes completar la información del doctor',
+          path: ['doctorInfo'],
+        });
+      } else {
+        const result = doctorInfoSchema.safeParse(data.doctorInfo);
+        if (!result.success) {
+          result.error.issues.forEach((issue) => {
+            ctx.addIssue({
+              ...issue,
+              path: ['doctorInfo', ...issue.path],
+            });
+          });
+        }
+      }
+    }
+  });
 
 export type CreateUserFormSchema = z.infer<typeof createUserFormSchema>;
