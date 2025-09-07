@@ -14,6 +14,7 @@ export const scheduleSchema = z
       .iso
       .time({ precision: -1, error: 'Hora de fin es requerida' }),
     isRemote: z.boolean(),
+    isActive: z.boolean().default(true),
   })
   .refine((data) => data.endTime > data.startTime, {
     message: 'La hora de fin debe ser mayor que la hora de inicio',
@@ -36,5 +37,16 @@ export const employeeInfoSchema = z.object({
     .number('Salario neto es requerido')
     .min(0, 'El salario neto debe ser 0 o más')
     .max(999_999_999_999, 'El salario neto es demasiado alto'),
-  schedules: z.array(scheduleSchema).min(5, 'Se requieren al menos 5 horarios'),
+  schedules: z
+    .array(scheduleSchema)
+    .superRefine((schedules, ctx) => {
+      const activeCount = schedules.filter((s) => s.isActive).length;
+      if (activeCount < 5) {
+        ctx.addIssue({
+          code: 'custom',
+          message: 'Se requieren al menos 5 horarios activos',
+          path: [],
+        });
+      }
+    }),
 });

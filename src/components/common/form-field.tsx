@@ -1,4 +1,5 @@
 import type { FieldError, UseFormRegisterReturn } from 'react-hook-form';
+import FormFieldLayout from '@/components/common/form-field-layout';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/cn';
 
@@ -21,19 +22,12 @@ export function FormField({ id, label, type = 'text', required, register, error,
   );
 
   return (
-    <div className="w-full flex flex-col gap-1">
-      <label htmlFor={id} className="text-sm">
-        {label}
-        {required && '*'}
-      </label>
-      <div>
-        {type === 'date' || type === 'number' ? (
-          <input type={type} id={id} {...register} placeholder={placeholder} className={baseClass} />
-        ) : (
-          <Input type={type} id={id} {...register} isError={!!error} placeholder={placeholder} autoComplete="off" />
-        )}
-        {error && <span className="text-destructive text-xs">{error.message}</span>}
-      </div>
-    </div>
+    <FormFieldLayout label={label} required={required} id={id} error={error}>
+      {type === 'date' || type === 'number' ? (
+        <input type={type} id={id} {...register} placeholder={placeholder} className={baseClass} />
+      ) : (
+        <Input type={type} id={id} {...register} isError={!!error} placeholder={placeholder} autoComplete="off" />
+      )}
+    </FormFieldLayout>
   );
 }
