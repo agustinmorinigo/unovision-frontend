@@ -314,36 +314,36 @@ export type Database = {
           birthDate: string;
           documentType: Database['public']['Enums']['documentType'];
           documentValue: string;
-          email: string | null;
+          email: string;
           gender: Database['public']['Enums']['gender'];
           id: string;
           lastName: string;
           name: string;
-          phone: string;
+          phone: string | null;
         };
         Insert: {
           address?: string | null;
           birthDate: string;
           documentType: Database['public']['Enums']['documentType'];
           documentValue: string;
-          email?: string | null;
+          email: string;
           gender: Database['public']['Enums']['gender'];
           id: string;
           lastName: string;
           name: string;
-          phone: string;
+          phone?: string | null;
         };
         Update: {
           address?: string | null;
           birthDate?: string;
           documentType?: Database['public']['Enums']['documentType'];
           documentValue?: string;
-          email?: string | null;
+          email?: string;
           gender?: Database['public']['Enums']['gender'];
           id?: string;
           lastName?: string;
           name?: string;
-          phone?: string;
+          phone?: string | null;
         };
         Relationships: [];
       };
@@ -496,7 +496,6 @@ export type Database = {
       expenseStatus: 'paid' | 'pending';
       gender: 'male' | 'female' | 'other';
       paymentMethodType: 'cash' | 'bna' | 'mp' | 'galicia' | 'bbva' | 'uala' | 'brubank';
-      userRole: 'admin' | 'accountant' | 'clerk' | 'doctor' | 'patient';
       vatCategoryType:
         | 'registeredResponsible'
         | 'monotax'
@@ -650,7 +649,6 @@ export const Constants = {
       expenseStatus: ['paid', 'pending'],
       gender: ['male', 'female', 'other'],
       paymentMethodType: ['cash', 'bna', 'mp', 'galicia', 'bbva', 'uala', 'brubank'],
-      userRole: ['admin', 'accountant', 'clerk', 'doctor', 'patient'],
       vatCategoryType: [
         'registeredResponsible',
         'monotax',
