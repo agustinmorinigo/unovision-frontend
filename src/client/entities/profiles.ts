@@ -7,8 +7,8 @@ export interface Profile {
   documentType: DocumentType;
   documentValue: string;
   gender: Gender;
-  email: string | null; // ESTO DEBE SER SOLO STRING, NO NULL. ESO SE VA A ARREGLAR CUANDO MANDE LA MIGRACIÓN DE ESO EN EL BACKEND.
-  phone: string;
+  email: string;
+  phone: string | null;
   address: string | null;
   birthDate: string;
 }
