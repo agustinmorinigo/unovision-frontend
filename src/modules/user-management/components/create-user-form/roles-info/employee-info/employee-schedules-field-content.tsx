@@ -1,12 +1,10 @@
 import type { ControllerRenderProps, FieldErrors } from 'react-hook-form';
-import type { EmployeeSchedule } from '@/client/entities';
 import type { CreateUserFormSchema } from '@/modules/user-management/schemas/create-user-form-schema';
 import isoWeekDays from '@/shared/date-time/constants/iso-week-days';
+import type { Schedule as ScheduleType } from '@/shared/employees/types';
 import ScheduleDayField from './schedule-day-field';
 
-type Schedule = Omit<EmployeeSchedule, 'id' | 'employeeId'> & {
-  isActive: boolean;
-};
+type Schedule = ScheduleType & { isActive: boolean };
 
 interface Props {
   field: ControllerRenderProps<CreateUserFormSchema, 'employeeInfo.schedules'>;
