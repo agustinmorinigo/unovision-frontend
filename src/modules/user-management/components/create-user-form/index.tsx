@@ -13,7 +13,7 @@ import {
   createUserFormSchema,
 } from '@/modules/user-management/schemas/create-user-form-schema';
 import parseFormValuesToCreateUserBody from '@/modules/user-management/utils/parse-form-values-to-create-user-body';
-import type { CreateUserBody, CreateUserResponse } from '@/services/api/user/create';
+import type { CreateUserBody, CreateUserResponse } from '@/services/api/users/create';
 
 interface CreateUserFormRef {
   submit: () => void;
@@ -56,7 +56,7 @@ const CreateUserForm = forwardRef<CreateUserFormRef, CreateUserFormProps>(({ cre
       toast.success('Usuario creado correctamente');
       reset();
     } catch (error) {
-      toast.error('Error al crear usuario', {description: error instanceof Error ? error.message : undefined});
+      toast.error('Error al crear usuario', { description: error instanceof Error ? error.message : undefined });
     }
   };
 

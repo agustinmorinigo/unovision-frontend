@@ -1,6 +1,6 @@
 import { type ContractType, RoleName } from '@/client/entities';
 import type { CreateUserFormSchema } from '@/modules/user-management/schemas/create-user-form-schema';
-import type { CreateUserBody } from '@/services/api/user/create';
+import type { CreateUserBody } from '@/services/api/users/create';
 import { roles } from '@/shared/users/constants/roles';
 
 function getProfileFromFormValues(formValues: CreateUserFormSchema): CreateUserBody['profile'] {
