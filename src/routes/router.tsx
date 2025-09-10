@@ -6,7 +6,6 @@ import publicRoutes from '@/routes/public';
 
 const router = createBrowserRouter([
   {
-    path: '/',
     element: <PublicGuard />,
     children: publicRoutes,
   },
