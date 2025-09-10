@@ -11,36 +11,31 @@ export const createUserFormSchema = z
       .string('Nombre es requerido')
       .trim()
       .min(2, 'Minímo 2 caracteres')
-      .max(80, 'Máximo 80 caracteres'),
+      .max(80, 'Máximo 80 caracteres')
+      .regex(/^[A-Za-zÁÉÍÓÚÜÑáéíóúüñ]+$/, 'Solo letras'),
     lastName: z
       .string('Apellido es requerido')
       .trim()
       .min(2, 'Minímo 2 caracteres')
-      .max(80, 'Máximo 80 caracteres'),
+      .max(80, 'Máximo 80 caracteres')
+      .regex(/^[A-Za-zÁÉÍÓÚÜÑáéíóúüñ]+$/, 'Solo letras'),
     documentType: z.enum(DocumentType, { error: 'Tipo de documento es requerido' }),
     documentValue: z
       .string('Número de documento es requerido')
       .trim()
       .min(6, 'Minímo 6 caracteres')
-      .max(30, 'Máximo 30 caracteres'),
+      .max(30, 'Máximo 30 caracteres')
+      .regex(/^[0-9]+$/, 'Solo números'),
     gender: z.enum(Gender, { error: 'Género es requerido' }),
-    email: z
-      .email('Correo electrónico inválido')
-      .trim()
-      .max(150, 'Máximo 150 caracteres'),
+    email: z.email('Correo electrónico inválido').trim().max(150, 'Máximo 150 caracteres'),
     phone: z
       .string()
       .trim()
       .max(30, 'Máximo 30 caracteres')
+      .regex(/^[0-9]+$/, 'Solo números')
       .optional(),
-    address: z
-      .string()
-      .trim()
-      .max(150, 'Máximo 150 caracteres')
-      .optional(),
-    birthDate: z
-      .iso
-      .date('Fecha de nacimiento es requerida'),
+    address: z.string().trim().max(150, 'Máximo 150 caracteres').optional(),
+    birthDate: z.iso.date('Fecha de nacimiento es requerida'),
     // Organizations.
     organizationIds: z.array(z.string()).min(1, 'Se requiere al menos una organización'),
     // Roles.
