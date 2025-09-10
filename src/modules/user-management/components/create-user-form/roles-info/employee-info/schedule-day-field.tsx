@@ -1,11 +1,9 @@
-import type { EmployeeSchedule } from '@/client/entities';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import type { Schedule as ScheduleType } from '@/shared/employees/types';
 
-type Schedule = Omit<EmployeeSchedule, 'id' | 'employeeId'> & {
-  isActive: boolean;
-};
+type Schedule = ScheduleType & { isActive: boolean };
 
 interface Props {
   day: { label: string; value: number };

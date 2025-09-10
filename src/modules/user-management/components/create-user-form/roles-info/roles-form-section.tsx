@@ -1,8 +1,10 @@
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { RoleName } from '@/client/entities';
+import Loader from '@/components/common/loader';
 import { Checkbox } from '@/components/ui/checkbox';
 import FormSectionLayout from '@/modules/user-management/components/create-user-form/form-section-layout';
+import { initialEmployeeInfo } from '@/modules/user-management/constants/employee-info';
 import type { CreateUserFormSchema } from '@/modules/user-management/schemas/create-user-form-schema';
 import { rolesAsOptions } from '@/shared/users/constants/roles';
 
@@ -31,7 +33,18 @@ export default function RolesFormSection() {
   const {
     control,
     formState: { errors },
+    unregister,
+    watch,
+    setValue,
   } = useFormContext<CreateUserFormSchema>();
+
+  const watchRoles = watch("roles");
+
+  useEffect(() => {
+    if (watchRoles?.includes(RoleName.Employee)) {
+      setValue("employeeInfo", initialEmployeeInfo);
+    }
+  }, [watchRoles, setValue]);
 
   return (
     <FormSectionLayout title="Roles" description="Seleccioná los roles que tendrá el usuario" hasErrors={!!errors.roles}>
@@ -55,6 +68,10 @@ export default function RolesFormSection() {
                             field.onChange([...field.value, roleInfo.value]);
                           } else {
                             field.onChange(field.value.filter((r) => r !== roleInfo.value));
+
+                            if (roleInfo.value === RoleName.Patient) unregister("patientInfo");
+                            if (roleInfo.value === RoleName.Doctor) unregister("doctorInfo");
+                            if (roleInfo.value === RoleName.Employee) unregister("employeeInfo");
                           }
                         }}
                       />
@@ -68,7 +85,7 @@ export default function RolesFormSection() {
                   </div>
                   {isChecked && roleInfo.FormComponent && (
                     <div className="my-3">
-                      <Suspense fallback={<p>Cargando...</p>}>
+                      <Suspense fallback={<Loader />}>
                         <roleInfo.FormComponent />
                       </Suspense>
                     </div>
