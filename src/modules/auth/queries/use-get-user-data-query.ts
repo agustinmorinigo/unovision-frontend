@@ -1,15 +1,9 @@
 import { type UseQueryResult, useQuery } from '@tanstack/react-query';
-import type { DocumentType, Gender, Organization, Profile, Role } from '@/client/entities';
+import type { DocumentType, Gender, Role } from '@/client/entities';
 import api from '@/services/api';
+import type { UserWithOrganizations } from '@/shared/users/types';
 
-export type UseGetUserDataQueryResponse = UseQueryResult<
-  {
-    profile: Profile;
-    organizations: Organization[];
-    roles: Role[];
-  },
-  Error
->;
+export type UseGetUserDataQueryResponse = UseQueryResult<UserWithOrganizations, Error>;
 
 export default function useGetUserDataQuery(userId: string): UseGetUserDataQueryResponse {
   const query = useQuery({
