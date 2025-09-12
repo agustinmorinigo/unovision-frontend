@@ -1,10 +1,12 @@
 import { Controller, useFormContext } from 'react-hook-form';
 import FormCheckboxGroup from '@/components/common/form-checkbox-group';
-import FormSectionLayout from '@/modules/user-management/components/create-user-form/form-section-layout';
-import type { CreateUserFormSchema } from '@/modules/user-management/schemas/create-user-form-schema';
+import FormSectionLayout from '@/modules/user-management/components/handle-user-form/form-section-layout';
+import type { HandleUserFormSchema } from '@/modules/user-management/schemas/handle-user-form-schema';
 import useGetOrganizationsQuery from '@/shared/organizations/queries/use-get-organizations-query';
+import useHandleUserModalStore from '@/modules/user-management/stores/handle-user-modal-store';
 
 export default function OrganizationsFormSection() {
+  const { isDetails } = useHandleUserModalStore();
   const { data } = useGetOrganizationsQuery();
   const organizations = data || [];
 
@@ -16,12 +18,12 @@ export default function OrganizationsFormSection() {
   const {
     formState: { errors },
     control,
-  } = useFormContext<CreateUserFormSchema>();
+  } = useFormContext<HandleUserFormSchema>();
 
   return (
     <FormSectionLayout
       title="Organizaciones"
-      description="Seleccioná las organizaciones a las que pertenece el usuario"
+      description={isDetails ? "" : "Seleccioná las organizaciones a las que pertenece el usuario"}
       hasErrors={!!errors.organizationIds}
     >
       <Controller

@@ -4,7 +4,7 @@ import { doctorInfoSchema } from '@/modules/user-management/schemas/doctor-info-
 import { employeeInfoSchema } from '@/modules/user-management/schemas/employee-info-schema';
 import { patientInfoSchema } from '@/modules/user-management/schemas/patient-info-schema';
 
-export const createUserFormSchema = z
+export const handleUserFormSchema = z
   // Personal info.
   .object({
     name: z
@@ -76,4 +76,4 @@ export const createUserFormSchema = z
     },
   );
 
-export type CreateUserFormSchema = z.infer<typeof createUserFormSchema>;
+export type HandleUserFormSchema = z.infer<typeof handleUserFormSchema>;
