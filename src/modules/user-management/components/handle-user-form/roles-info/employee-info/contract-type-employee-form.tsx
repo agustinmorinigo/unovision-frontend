@@ -1,10 +1,13 @@
 import { Controller, useFormContext } from 'react-hook-form';
 import FormRadioGroup from '@/components/common/form-radio-group';
-import type { CreateUserFormSchema } from '@/modules/user-management/schemas/create-user-form-schema';
+import type { HandleUserFormSchema } from '@/modules/user-management/schemas/handle-user-form-schema';
 import contractTypes from '@/shared/employees/constants/contract-types';
 
-export default function ContractTypeEmployeeForm() {
-  const { formState: { errors }, control } = useFormContext<CreateUserFormSchema>();
+export default function ContractTypeEmployeeForm({ required }: { required: boolean }) {
+  const {
+    formState: { errors },
+    control,
+  } = useFormContext<HandleUserFormSchema>();
 
   return (
     <Controller
@@ -14,7 +17,7 @@ export default function ContractTypeEmployeeForm() {
         <FormRadioGroup
           id="employeeInfo.contractType"
           label="Tipo de contrato"
-          required
+          required={required}
           error={errors.employeeInfo?.contractType}
           options={contractTypes}
           value={field.value}
@@ -22,5 +25,5 @@ export default function ContractTypeEmployeeForm() {
         />
       )}
     />
-  )
+  );
 }

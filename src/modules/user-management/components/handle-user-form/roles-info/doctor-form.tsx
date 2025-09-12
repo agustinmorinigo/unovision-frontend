@@ -1,18 +1,21 @@
 import { Controller, useFormContext } from 'react-hook-form';
 import { Checkbox } from '@/components/ui/checkbox';
-import FormSectionLayout from '@/modules/user-management/components/create-user-form/form-section-layout';
-import type { CreateUserFormSchema } from '@/modules/user-management/schemas/create-user-form-schema';
+import FormSectionLayout from '@/modules/user-management/components/handle-user-form/form-section-layout';
+import type { HandleUserFormSchema } from '@/modules/user-management/schemas/handle-user-form-schema';
+import useHandleUserModalStore from '@/modules/user-management/stores/handle-user-modal-store';
 
 export default function DoctorForm() {
+  const { isDetails } = useHandleUserModalStore();
+  
   const {
     control,
     formState: { errors },
-  } = useFormContext<CreateUserFormSchema>();
+  } = useFormContext<HandleUserFormSchema>();
 
   return (
     <FormSectionLayout
       title="Información del doctor"
-      description="Proporcione la información específica del doctor"
+      description={isDetails ? "" : "Proporcione la información específica del doctor"}
       hasErrors={!!errors.doctorInfo}
     >
       <div className="flex flex-col gap-1 items-start">

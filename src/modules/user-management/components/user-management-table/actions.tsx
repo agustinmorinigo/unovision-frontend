@@ -7,18 +7,21 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import type { User } from '@/shared/users/types';
+import useHandleUserModalStore from '@/modules/user-management/stores/handle-user-modal-store';
 
 interface TableActionsProps {
   user: User;
 }
 
 export default function TableActions({ user }: TableActionsProps) {
+  const { open: openHandleUserModal } = useHandleUserModalStore();
+
   const handleOnSeeDetails = () => {
-    console.log('Details', user);
+    openHandleUserModal('details');
   }
 
   const handleOnEdit = () => {
-    console.log('Edit', user);
+    openHandleUserModal('edition');
   }
 
   const handleOnDelete = () => {

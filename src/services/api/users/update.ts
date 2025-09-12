@@ -2,9 +2,6 @@ import supabase from '@/client';
 import type { ContractType, DocumentType, Gender } from '@/client/entities';
 import type { Schedule } from '@/shared/employees/types';
 
-// UNIFICAR ESTAS PROPS CON LAS DEL UPDATE.
-// PONER DISABLED TODO EL MODAL CUANDO IS DETAILS.
-
 export interface CreateUserBody {
   profile: ProfileData;
   organizationIds: string[];
@@ -52,8 +49,8 @@ interface DoctorData {
   isResident: boolean;
 }
 
-export async function create(body: CreateUserBody) {
-  const { data, error } = await supabase.functions.invoke<CreateUserResponse>('create-full-user', { body });
+export async function update(body: CreateUserBody) {
+  const { data, error } = await supabase.functions.invoke<CreateUserResponse>('update-full-user', { body });
   if (error) throw error;
   return data;
 }
