@@ -2,20 +2,20 @@ import { Controller, useFormContext } from 'react-hook-form';
 import FormFieldLayout from '@/components/common/form-field-layout';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import type { CreateUserFormSchema } from '@/modules/user-management/schemas/create-user-form-schema';
+import type { HandleUserFormSchema } from '@/modules/user-management/schemas/handle-user-form-schema';
 import documentTypes from '@/shared/users/constants/document-types';
 
-export default function DocumentField() {
+export default function DocumentField({ required }: { required: boolean }) {
   const {
     register,
     control,
     formState: { errors },
-  } = useFormContext<CreateUserFormSchema>();
+  } = useFormContext<HandleUserFormSchema>();
 
-  const error = errors.documentType|| errors.documentValue;
-  
+  const error = errors.documentType || errors.documentValue;
+
   return (
-    <FormFieldLayout label={'Documento'} required={true} id={'document'} error={error}>
+    <FormFieldLayout label={'Documento'} required={required} id={'document'} error={error}>
       <div className="flex flex-row w-full">
         <Controller
           name="documentType"

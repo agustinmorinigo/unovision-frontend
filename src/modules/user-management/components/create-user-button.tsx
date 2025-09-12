@@ -1,12 +1,7 @@
 import { Button } from '@/components/ui/button';
-import useAddUserModalStore from '@/modules/user-management/stores/create-user-modal-store';
+import useHandleUserModalStore from '@/modules/user-management/stores/handle-user-modal-store';
 
 export default function CreateUserButton() {
-  const { open } = useAddUserModalStore();
-
-  return (
-    <Button onClick={open}>
-      Agregar usuario
-    </Button>
-  )
+  const { open } = useHandleUserModalStore();
+  return <Button onClick={() => open('creation')}>Agregar usuario</Button>;
 }

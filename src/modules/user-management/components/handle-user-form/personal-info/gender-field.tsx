@@ -1,13 +1,13 @@
 import { Controller, useFormContext } from 'react-hook-form';
 import FormRadioGroup from '@/components/common/form-radio-group';
-import type { CreateUserFormSchema } from '@/modules/user-management/schemas/create-user-form-schema';
+import type { HandleUserFormSchema } from '@/modules/user-management/schemas/handle-user-form-schema';
 import genders from '@/shared/users/constants/genders';
 
-export default function GenderField() {
+export default function GenderField({ required }: { required: boolean }) {
   const {
     control,
     formState: { errors },
-  } = useFormContext<CreateUserFormSchema>();
+  } = useFormContext<HandleUserFormSchema>();
 
   return (
     <Controller
@@ -17,7 +17,7 @@ export default function GenderField() {
         <FormRadioGroup
           id="gender"
           label="Género"
-          required
+          required={required}
           error={errors.gender}
           options={genders}
           value={field.value}

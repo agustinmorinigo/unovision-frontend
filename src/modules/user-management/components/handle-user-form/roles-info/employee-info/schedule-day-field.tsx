@@ -14,26 +14,20 @@ interface Props {
   onRemoteToggle: (weekday: number, checked: boolean) => void;
 }
 
-export default function ScheduleDayField({
-  day,
-  schedule,
-  dayErrors,
-  onToggle,
-  onTimeChange,
-  onRemoteToggle,
-}: Props) {
+export default function ScheduleDayField({ day, schedule, dayErrors, onToggle, onTimeChange, onRemoteToggle }: Props) {
   const active = schedule?.isActive ?? false;
 
   return (
     <div>
       <div
-        className={`rounded-lg border p-3 ${active
+        className={`rounded-lg border p-3 ${
+          active
             ? 'bg-background border-primary shadow-sm'
             : 'bg-muted text-muted-foreground border-muted hover:border-primary/40'
-          }`}
+        }`}
       >
         <div className="flex items-center justify-between gap-3">
-          <div className='flex items-center gap-2 shrink-0'>
+          <div className="flex items-center gap-2 shrink-0">
             <Checkbox
               id={`weekday-${day.value}`}
               checked={active}

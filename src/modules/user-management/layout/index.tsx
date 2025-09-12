@@ -1,5 +1,5 @@
 import CreateUserButton from '@/modules/user-management/components/create-user-button';
-import CreateUserModal from '@/modules/user-management/components/create-user-modal';
+import HandleUserModal from '@/modules/user-management/components/handle-user-modal';
 import UserManagementTableContainer from '@/modules/user-management/components/user-management-table/container';
 
 export default function UserManagementLayout() {
@@ -9,7 +9,7 @@ export default function UserManagementLayout() {
         <CreateUserButton />
       </div>
       <UserManagementTableContainer />
-      <CreateUserModal />
+      <HandleUserModal />
     </div>
   );
 }

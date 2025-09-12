@@ -1,9 +1,9 @@
 import { type ContractType, RoleName } from '@/client/entities';
-import type { CreateUserFormSchema } from '@/modules/user-management/schemas/create-user-form-schema';
+import type { HandleUserFormSchema } from '@/modules/user-management/schemas/handle-user-form-schema';
 import type { CreateUserBody } from '@/services/api/users/create';
 import { roles } from '@/shared/users/constants/roles';
 
-function getProfileFromFormValues(formValues: CreateUserFormSchema): CreateUserBody['profile'] {
+function getProfileFromFormValues(formValues: HandleUserFormSchema): CreateUserBody['profile'] {
   return {
     name: formValues.name,
     lastName: formValues.lastName,
@@ -17,7 +17,7 @@ function getProfileFromFormValues(formValues: CreateUserFormSchema): CreateUserB
   };
 }
 
-function getRoleIdsFromFormValues(formValues: CreateUserFormSchema): number[] {
+function getRoleIdsFromFormValues(formValues: HandleUserFormSchema): number[] {
   return formValues.roles
     .filter((r) => r === RoleName.Admin || r === RoleName.Accountant)
     .map((roleName) => {
@@ -27,7 +27,7 @@ function getRoleIdsFromFormValues(formValues: CreateUserFormSchema): number[] {
     .filter((id) => id !== -1);
 }
 
-function getEmployeeDataFromFormValues(formValues: CreateUserFormSchema): CreateUserBody['employeeData'] | undefined {
+function getEmployeeDataFromFormValues(formValues: HandleUserFormSchema): CreateUserBody['employeeData'] | undefined {
   if (!formValues.employeeInfo) return undefined;
 
   return {
@@ -46,7 +46,7 @@ function getEmployeeDataFromFormValues(formValues: CreateUserFormSchema): Create
   };
 }
 
-function getPatientDataFromFormValues(formValues: CreateUserFormSchema): CreateUserBody['patientData'] | undefined {
+function getPatientDataFromFormValues(formValues: HandleUserFormSchema): CreateUserBody['patientData'] | undefined {
   if (!formValues.patientInfo) return undefined;
 
   return {
@@ -54,7 +54,7 @@ function getPatientDataFromFormValues(formValues: CreateUserFormSchema): CreateU
   };
 }
 
-function getDoctorDataFromFormValues(formValues: CreateUserFormSchema): CreateUserBody['doctorData'] | undefined {
+function getDoctorDataFromFormValues(formValues: HandleUserFormSchema): CreateUserBody['doctorData'] | undefined {
   if (!formValues.doctorInfo) return undefined;
 
   return {
@@ -62,7 +62,7 @@ function getDoctorDataFromFormValues(formValues: CreateUserFormSchema): CreateUs
   };
 }
 
-export default function parseFormValuesToCreateUserBody(formValues: CreateUserFormSchema): CreateUserBody {
+export default function parseFormValuesToCreateUserBody(formValues: HandleUserFormSchema): CreateUserBody {
   return {
     profile: getProfileFromFormValues(formValues),
     organizationIds: formValues.organizationIds,
