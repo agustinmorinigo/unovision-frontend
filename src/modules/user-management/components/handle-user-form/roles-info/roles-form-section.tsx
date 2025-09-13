@@ -6,8 +6,8 @@ import { Checkbox } from '@/components/ui/checkbox';
 import FormSectionLayout from '@/modules/user-management/components/handle-user-form/form-section-layout';
 import { initialEmployeeInfo } from '@/modules/user-management/constants/employee-info';
 import type { HandleUserFormSchema } from '@/modules/user-management/schemas/handle-user-form-schema';
-import { rolesAsOptions } from '@/shared/users/constants/roles';
 import useHandleUserModalStore from '@/modules/user-management/stores/handle-user-modal-store';
+import { rolesAsOptions } from '@/shared/users/constants/roles';
 
 const EmployeeForm = lazy(
   () => import('@/modules/user-management/components/handle-user-form/roles-info/employee-info/employee-form'),
@@ -46,10 +46,10 @@ export default function RolesFormSection() {
   const watchRoles = watch('roles');
 
   useEffect(() => {
-    if (watchRoles?.includes(RoleName.Employee)) {
+    if (watchRoles?.includes(RoleName.Employee) && !watch('employeeInfo')) {
       setValue('employeeInfo', initialEmployeeInfo);
     }
-  }, [watchRoles, setValue]);
+  }, [watchRoles, setValue, watch]);
 
   return (
     <FormSectionLayout

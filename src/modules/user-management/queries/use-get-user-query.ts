@@ -1,9 +1,10 @@
-import { useQuery } from '@tanstack/react-query';
-import api from '@/services/api';
-import useHandleUserModalStore from '@/modules/user-management/stores/handle-user-modal-store';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import { RoleName } from '@/client/entities';
+import useHandleUserModalStore from '@/modules/user-management/stores/handle-user-modal-store';
+import api from '@/services/api';
+import type { UserWithDetails } from '@/shared/users/types';
 
-// export type UseGetUsersQueryResponse = UseQueryResult<User, Error>;
+export type UseGetUsersQueryResponse = UseQueryResult<UserWithDetails, Error>;
 
 export default function useGetUserQuery() {
   const { user } = useHandleUserModalStore();
@@ -28,30 +29,23 @@ export default function useGetUserQuery() {
       
     },
     enabled: !!user?.profile.id,
-    // PRÓXIMO TO DO: TRANSFORMAR ACÁ LA DATA COMPLETAAAAAAAAAAA. TOMAR DE BASE EL 'use-get-user-data-query'. Es eso, + FORMATEAR LA DATA DE 'patients', 'doctors' y 'employees'.
+    select(data) {
+      if(!data) return null;
 
-    // select(data) {
-    //   const { data: usersData, count, hasMore } = data;
+      const organizationsParsed = data.organizations.map((item) => item.organizations);
+      const rolesParsed = data.roles.map((item) => item.roles);
+      const { organizations: _, roles: __, documentType, gender, ...rest } = data;
 
-    //   const formattedData = usersData.map((item) => {
-    //     const rolesParsed = item.roles.map((role) => role.roles);
-    //     const { roles: __, documentType, gender, ...rest } = item;
-    //     return {
-    //       profile: {
-    //         documentType: documentType as unknown as DocumentType,
-    //         gender: gender as unknown as Gender,
-    //         ...rest,
-    //       },
-    //       roles: rolesParsed as Role[],
-    //     };
-    //   });
-      
-    //   return {
-    //     data: formattedData,
-    //     count,
-    //     hasMore,
-    //   };
-    // },
+      return {
+        profile: {
+          documentType: documentType,
+          gender: gender,
+          ...rest,
+        },
+        organizations: organizationsParsed,
+        roles: rolesParsed,
+      };
+    },
   })
 
   return query;

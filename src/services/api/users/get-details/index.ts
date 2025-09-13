@@ -1,13 +1,7 @@
 import supabase from '@/client';
+import type { GetDetailsParams, GetUserDetailsResponse } from '@/services/api/users/get-details/types';
 
-interface GetDetailsParams {
-  userId: string;
-  needsEmployeeInfo: boolean;
-  needsPatientInfo: boolean;
-  needsDoctorInfo: boolean;
-}
-
-export async function getDetails(params: GetDetailsParams) {
+export async function getDetails(params: GetDetailsParams): Promise<GetUserDetailsResponse> {
   const { userId, needsEmployeeInfo, needsPatientInfo, needsDoctorInfo } = params;
 
   const selectFields: string[] = [
@@ -33,12 +27,8 @@ export async function getDetails(params: GetDetailsParams) {
     selectFields.push(`doctors:doctors!profileId(*)`);
   }
 
-  const { data, error } = await supabase
-    .from('profiles')
-    .select(selectFields.join(',\n'))
-    .eq('id', userId)
-    .single();
+  const { data, error } = await supabase.from('profiles').select(selectFields.join(',\n')).eq('id', userId).single();
 
   if (error) throw error;
-  return data;
+  return data as unknown as GetUserDetailsResponse;
 }

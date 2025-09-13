@@ -4,6 +4,7 @@ import { forwardRef, useEffect, useImperativeHandle } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { DocumentType } from '@/client/entities';
+import { cn } from '@/lib/cn';
 import OrganizationsFormSection from '@/modules/user-management/components/handle-user-form/organizations-info/organizations-form-section';
 import PersonalInfoFormSection from '@/modules/user-management/components/handle-user-form/personal-info/personal-info-form-section';
 import RolesFormSection from '@/modules/user-management/components/handle-user-form/roles-info/roles-form-section';
@@ -12,10 +13,10 @@ import {
   type HandleUserFormSchema,
   handleUserFormSchema,
 } from '@/modules/user-management/schemas/handle-user-form-schema';
+import useHandleUserModalStore from '@/modules/user-management/stores/handle-user-modal-store';
 import parseFormValuesToCreateUserBody from '@/modules/user-management/utils/parse-form-values-to-create-user-body';
 import type { CreateUserBody, CreateUserResponse } from '@/services/api/users/create';
-import useHandleUserModalStore from '@/modules/user-management/stores/handle-user-modal-store';
-import { cn } from '@/lib/cn';
+import type { UserWithDetails } from '@/shared/users/types';
 
 interface CreateUserFormRef {
   submit: () => void;
@@ -23,8 +24,8 @@ interface CreateUserFormRef {
 
 interface CreateUserFormProps {
   createUserAsync: UseMutateAsyncFunction<CreateUserResponse | null, Error, CreateUserBody, unknown>;
-  updateUserAsync: any; // CHANGE THIS.
-  userData: any; // CHANGE THIS.
+  updateUserAsync: UseMutateAsyncFunction<CreateUserResponse | null, Error, CreateUserBody, unknown>; // Review this.
+  userData: UserWithDetails | undefined | null;
 }
 
 const CreateUserForm = forwardRef<CreateUserFormRef, CreateUserFormProps>((props, ref) => {
@@ -58,10 +59,42 @@ const CreateUserForm = forwardRef<CreateUserFormRef, CreateUserFormProps>((props
 
   useEffect(() => {
     if (userData) {
-      console.log("userData: ", userData);
-      // reset(userData);
+      let employeeInfo = initialEmployeeInfo;
+
+      if (userData.profile.employees) {
+        employeeInfo = {
+          startDate: userData.profile.employees.startDate,
+          cuil: userData.profile.employees.cuil,
+          contractType: userData.profile.employees.contractType,
+          netSalary: userData.profile.employees.netSalary,
+          schedules: userData.profile.employees.employeeSchedules.map(schedule => ({
+            weekday: schedule.weekday,
+            startTime: schedule.startTime,
+            endTime: schedule.endTime,
+            isRemote: schedule.isRemote,
+            isActive: true,
+          })),
+        };
+      }
+
+      reset({
+        name: userData.profile.name,
+        lastName: userData.profile.lastName,
+        email: userData.profile.email,
+        phone: userData.profile.phone,
+        address: userData.profile.address,
+        birthDate: userData.profile.birthDate,
+        documentValue: userData.profile.documentValue,
+        gender: userData.profile.gender,
+        documentType: userData.profile.documentType,
+        roles: userData.roles.map((role) => role.name),
+        organizationIds: userData.organizations.map((org) => org.id),
+        patientInfo: userData.profile.patients || undefined,
+        doctorInfo: userData.profile.doctors || { isResident: false },
+        employeeInfo: employeeInfo,
+      });
     }
-  }, [userData]);
+  }, [userData, reset]);
 
   const onSubmit = async (formValues: HandleUserFormSchema) => {
     if (isCreation) {
