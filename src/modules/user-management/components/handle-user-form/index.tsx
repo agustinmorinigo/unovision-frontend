@@ -1,9 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { UseMutateAsyncFunction } from '@tanstack/react-query';
-import { forwardRef, useImperativeHandle } from 'react';
+import { forwardRef, useEffect, useImperativeHandle } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { DocumentType } from '@/client/entities';
+import { cn } from '@/lib/cn';
 import OrganizationsFormSection from '@/modules/user-management/components/handle-user-form/organizations-info/organizations-form-section';
 import PersonalInfoFormSection from '@/modules/user-management/components/handle-user-form/personal-info/personal-info-form-section';
 import RolesFormSection from '@/modules/user-management/components/handle-user-form/roles-info/roles-form-section';
@@ -12,10 +13,11 @@ import {
   type HandleUserFormSchema,
   handleUserFormSchema,
 } from '@/modules/user-management/schemas/handle-user-form-schema';
-import parseFormValuesToCreateUserBody from '@/modules/user-management/utils/parse-form-values-to-create-user-body';
-import type { CreateUserBody, CreateUserResponse } from '@/services/api/users/create';
 import useHandleUserModalStore from '@/modules/user-management/stores/handle-user-modal-store';
-import { cn } from '@/lib/cn';
+import parseFormValuesToCreateUserBody from '@/modules/user-management/utils/parse-form-values-to-create-user-body';
+import transformUserDataToFormSchema from '@/modules/user-management/utils/transform-user-data-to-form-schema';
+import type { CreateUserBody, CreateUserResponse } from '@/services/api/users/create';
+import type { UserWithDetails } from '@/shared/users/types';
 
 interface CreateUserFormRef {
   submit: () => void;
@@ -23,13 +25,14 @@ interface CreateUserFormRef {
 
 interface CreateUserFormProps {
   createUserAsync: UseMutateAsyncFunction<CreateUserResponse | null, Error, CreateUserBody, unknown>;
-  updateUserAsync: any; // CHANGE THIS.
+  updateUserAsync: UseMutateAsyncFunction<CreateUserResponse | null, Error, CreateUserBody, unknown>; // Review this.
+  userData: UserWithDetails | undefined | null;
 }
 
 const CreateUserForm = forwardRef<CreateUserFormRef, CreateUserFormProps>((props, ref) => {
-  const { createUserAsync, updateUserAsync } = props;
+  const { createUserAsync, updateUserAsync, userData } = props;
   const { isCreation, isDisabled } = useHandleUserModalStore();
-  
+
   const methods = useForm({
     resolver: zodResolver(handleUserFormSchema),
     defaultValues: {
@@ -55,6 +58,12 @@ const CreateUserForm = forwardRef<CreateUserFormRef, CreateUserFormProps>((props
 
   const { handleSubmit, reset } = methods;
 
+  useEffect(() => {
+    if (userData) {
+      reset(transformUserDataToFormSchema(userData));
+    }
+  }, [userData, reset]);
+
   const onSubmit = async (formValues: HandleUserFormSchema) => {
     if (isCreation) {
       await createUser(formValues);
@@ -72,11 +81,11 @@ const CreateUserForm = forwardRef<CreateUserFormRef, CreateUserFormProps>((props
     } catch (error) {
       toast.error('Error al crear usuario', { description: error instanceof Error ? error.message : undefined });
     }
-  }
+  };
 
   const updateUser = async (formValues: HandleUserFormSchema) => {
     // TO DO.
-  }
+  };
 
   useImperativeHandle(ref, () => ({
     submit: handleSubmit(onSubmit),
@@ -84,12 +93,10 @@ const CreateUserForm = forwardRef<CreateUserFormRef, CreateUserFormProps>((props
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onSubmit)} className={
-        cn(
-          "w-full overflow-hidden flex flex-col gap-10",
-          isDisabled && "pointer-events-none select-none",
-        )
-      }>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className={cn('w-full overflow-hidden flex flex-col gap-10', isDisabled && 'pointer-events-none select-none')}
+      >
         <PersonalInfoFormSection />
         <OrganizationsFormSection />
         <RolesFormSection />

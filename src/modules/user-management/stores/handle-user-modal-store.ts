@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import type { User } from '@/shared/users/types';
 
 type State = {
   isOpen: boolean;
@@ -7,37 +8,36 @@ type State = {
   isCreation: boolean;
   isEdition: boolean;
   isDetails: boolean;
-  // Agregar 'user' acá, me va a servir para cargar los datos del usuario a editar/ver detalles.
+  user: User | null;
 };
 
 type Actions = {
-  open: (type: State['type']) => void;
+  open: ({ type, user }: { type: State['type']; user?: User }) => void;
   close: () => void;
 };
 
-const useHandleUserModalStore = create<State & Actions>((set) => ({
+const initialState: State = {
   isOpen: false,
   type: 'creation',
   isDisabled: false,
   isCreation: true,
   isEdition: false,
   isDetails: false,
-  open: (type) => set({
+  user: null,
+};
+
+const useHandleUserModalStore = create<State & Actions>((set) => ({
+  ...initialState,
+  open: ({type, user}) => set({
     isOpen: true,
     type,
+    user: user || null,
     isDisabled: type === 'details',
     isCreation: type === 'creation',
     isEdition: type === 'edition',
     isDetails: type === 'details',
   }),
-  close: () => set({
-    isOpen: false,
-    type: 'creation',
-    isDisabled: false,
-    isCreation: true,
-    isEdition: false,
-    isDetails: false,
-  }),
+  close: () => set({ ...initialState }),
 }));
 
 export default useHandleUserModalStore;

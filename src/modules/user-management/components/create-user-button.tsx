@@ -3,5 +3,5 @@ import useHandleUserModalStore from '@/modules/user-management/stores/handle-use
 
 export default function CreateUserButton() {
   const { open } = useHandleUserModalStore();
-  return <Button onClick={() => open('creation')}>Agregar usuario</Button>;
+  return <Button onClick={() => open({ type: 'creation' })}>Agregar usuario</Button>;
 }

@@ -1,5 +1,5 @@
 import CreateUserButton from '@/modules/user-management/components/create-user-button';
-import HandleUserModal from '@/modules/user-management/components/handle-user-modal';
+import HandleUserModal from '@/modules/user-management/components/handle-user-modal/modal';
 import UserManagementTableContainer from '@/modules/user-management/components/user-management-table/container';
 
 export default function UserManagementLayout() {

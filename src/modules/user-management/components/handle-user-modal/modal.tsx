@@ -1,20 +1,19 @@
 import { Loader } from 'lucide-react';
 import { useRef } from 'react';
-import { Button } from '@/components/ui/button';
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
 import { cn } from '@/lib/cn';
 import HandleUserForm from '@/modules/user-management/components/handle-user-form';
+import HandleUserModalFooter from '@/modules/user-management/components/handle-user-modal/modal-footer';
 import useCreateUserMutation from '@/modules/user-management/queries/use-create-user-mutation';
-import useHandleUserModalStore from '@/modules/user-management/stores/handle-user-modal-store';
+import useGetUserQuery from '@/modules/user-management/queries/use-get-user-query';
 import useUpdateUserMutation from '@/modules/user-management/queries/use-update-user-mutation';
+import useHandleUserModalStore from '@/modules/user-management/stores/handle-user-modal-store';
 
 interface HandleUserFormRef {
   submit: () => void;
@@ -28,10 +27,11 @@ const getTitle = (type: 'creation' | 'edition' | 'details'): string => {
 }
 
 export default function HandleUserModal() {
-  const { isOpen, close, type, isCreation, isEdition, isDetails } = useHandleUserModalStore();
+  const { isOpen, close, type, isCreation } = useHandleUserModalStore();
   const { isPending: isCreateUserPending, mutateAsync: createUserAsync } = useCreateUserMutation();
   const { isPending: isEditUserPending, mutateAsync: updateUserAsync } = useUpdateUserMutation();
   const formRef = useRef<HandleUserFormRef>(null);
+  const { data: userData, isPending: isGetUserPending, isError: isGetUserError } = useGetUserQuery();
   const isSomethingPending = isCreateUserPending || isEditUserPending;
 
   const handleOnSubmit = () => {
@@ -61,44 +61,23 @@ export default function HandleUserModal() {
             isSomethingPending && 'pointer-events-none select-none opacity-60',
           )}
         >
-          <HandleUserForm
-            ref={formRef}
-            createUserAsync={createUserAsync}
-            updateUserAsync={updateUserAsync}
-          />
+          {
+            (!isCreation && isGetUserPending) ? (
+              <Loader className="mx-auto my-20 animate-spin" />
+            ) : (!isCreation && isGetUserError) ? (
+              <p className="text-center my-20">Error al cargar los datos del usuario.</p>
+            ) : (
+              <HandleUserForm
+                ref={formRef}
+                createUserAsync={createUserAsync}
+                updateUserAsync={updateUserAsync}
+                userData={userData}
+              />
+            )
+          }
         </div>
 
-        {/* Meter esto en <HandleUserModalFooter /> */}
-        {
-          isDetails ? (
-            <DialogFooter className="shrink-0 h-auto">
-              <DialogClose asChild disabled={isSomethingPending}>
-                <Button>Cerrar</Button>
-              </DialogClose>
-            </DialogFooter>
-          ) : isEdition ? (
-            <DialogFooter className="shrink-0 h-auto">
-              <DialogClose asChild disabled={isSomethingPending}>
-                <Button variant="outline">Cancelar</Button>
-              </DialogClose>
-              <Button type="submit" onClick={handleOnSubmit} disabled={isSomethingPending}>
-                {isSomethingPending && <Loader className="mr-2 animate-spin" />}
-                {isSomethingPending ? 'Editando...' : 'Editar'}
-              </Button>
-            </DialogFooter>
-          ) : (
-            <DialogFooter className="shrink-0 h-auto">
-              <DialogClose asChild disabled={isSomethingPending}>
-                <Button variant="outline">Cancelar</Button>
-              </DialogClose>
-              <Button type="submit" onClick={handleOnSubmit} disabled={isSomethingPending}>
-                {isSomethingPending && <Loader className="mr-2 animate-spin" />}
-                {isSomethingPending ? 'Creando...' : 'Crear'}
-              </Button>
-            </DialogFooter>
-          )
-        }
-        {/* Meter esto en <HandleUserModalFooter /> */}
+        <HandleUserModalFooter isSomethingPending={isSomethingPending} handleOnSubmit={handleOnSubmit} />
       </DialogContent>
     </Dialog>
   );

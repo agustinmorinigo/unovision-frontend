@@ -17,11 +17,11 @@ export default function TableActions({ user }: TableActionsProps) {
   const { open: openHandleUserModal } = useHandleUserModalStore();
 
   const handleOnSeeDetails = () => {
-    openHandleUserModal('details');
+    openHandleUserModal({ type: 'details', user });
   }
 
   const handleOnEdit = () => {
-    openHandleUserModal('edition');
+    openHandleUserModal({ type: 'edition', user });
   }
 
   const handleOnDelete = () => {
