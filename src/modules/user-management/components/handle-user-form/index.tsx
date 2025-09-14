@@ -15,6 +15,7 @@ import {
 } from '@/modules/user-management/schemas/handle-user-form-schema';
 import useHandleUserModalStore from '@/modules/user-management/stores/handle-user-modal-store';
 import parseFormValuesToCreateUserBody from '@/modules/user-management/utils/parse-form-values-to-create-user-body';
+import transformUserDataToFormSchema from '@/modules/user-management/utils/transform-user-data-to-form-schema';
 import type { CreateUserBody, CreateUserResponse } from '@/services/api/users/create';
 import type { UserWithDetails } from '@/shared/users/types';
 
@@ -31,7 +32,7 @@ interface CreateUserFormProps {
 const CreateUserForm = forwardRef<CreateUserFormRef, CreateUserFormProps>((props, ref) => {
   const { createUserAsync, updateUserAsync, userData } = props;
   const { isCreation, isDisabled } = useHandleUserModalStore();
-  
+
   const methods = useForm({
     resolver: zodResolver(handleUserFormSchema),
     defaultValues: {
@@ -59,40 +60,7 @@ const CreateUserForm = forwardRef<CreateUserFormRef, CreateUserFormProps>((props
 
   useEffect(() => {
     if (userData) {
-      let employeeInfo = initialEmployeeInfo;
-
-      if (userData.profile.employees) {
-        employeeInfo = {
-          startDate: userData.profile.employees.startDate,
-          cuil: userData.profile.employees.cuil,
-          contractType: userData.profile.employees.contractType,
-          netSalary: userData.profile.employees.netSalary,
-          schedules: userData.profile.employees.employeeSchedules.map(schedule => ({
-            weekday: schedule.weekday,
-            startTime: schedule.startTime,
-            endTime: schedule.endTime,
-            isRemote: schedule.isRemote,
-            isActive: true,
-          })),
-        };
-      }
-
-      reset({
-        name: userData.profile.name,
-        lastName: userData.profile.lastName,
-        email: userData.profile.email,
-        phone: userData.profile.phone,
-        address: userData.profile.address,
-        birthDate: userData.profile.birthDate,
-        documentValue: userData.profile.documentValue,
-        gender: userData.profile.gender,
-        documentType: userData.profile.documentType,
-        roles: userData.roles.map((role) => role.name),
-        organizationIds: userData.organizations.map((org) => org.id),
-        patientInfo: userData.profile.patients || undefined,
-        doctorInfo: userData.profile.doctors || { isResident: false },
-        employeeInfo: employeeInfo,
-      });
+      reset(transformUserDataToFormSchema(userData));
     }
   }, [userData, reset]);
 
@@ -113,11 +81,11 @@ const CreateUserForm = forwardRef<CreateUserFormRef, CreateUserFormProps>((props
     } catch (error) {
       toast.error('Error al crear usuario', { description: error instanceof Error ? error.message : undefined });
     }
-  }
+  };
 
   const updateUser = async (formValues: HandleUserFormSchema) => {
     // TO DO.
-  }
+  };
 
   useImperativeHandle(ref, () => ({
     submit: handleSubmit(onSubmit),
@@ -125,12 +93,10 @@ const CreateUserForm = forwardRef<CreateUserFormRef, CreateUserFormProps>((props
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onSubmit)} className={
-        cn(
-          "w-full overflow-hidden flex flex-col gap-10",
-          isDisabled && "pointer-events-none select-none",
-        )
-      }>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className={cn('w-full overflow-hidden flex flex-col gap-10', isDisabled && 'pointer-events-none select-none')}
+      >
         <PersonalInfoFormSection />
         <OrganizationsFormSection />
         <RolesFormSection />
