@@ -15,8 +15,10 @@ import {
 } from '@/modules/user-management/schemas/handle-user-form-schema';
 import useHandleUserModalStore from '@/modules/user-management/stores/handle-user-modal-store';
 import parseFormValuesToCreateUserBody from '@/modules/user-management/utils/parse-form-values-to-create-user-body';
+import parseFormValuesToUpdateUserBody from '@/modules/user-management/utils/parse-form-values-to-update-user-body';
 import transformUserDataToFormSchema from '@/modules/user-management/utils/transform-user-data-to-form-schema';
 import type { CreateUserBody, CreateUserResponse } from '@/services/api/users/create';
+import type { UpdateUserBody, UpdateUserResponse } from '@/services/api/users/update';
 import type { UserWithDetails } from '@/shared/users/types';
 
 interface CreateUserFormRef {
@@ -25,7 +27,7 @@ interface CreateUserFormRef {
 
 interface CreateUserFormProps {
   createUserAsync: UseMutateAsyncFunction<CreateUserResponse | null, Error, CreateUserBody, unknown>;
-  updateUserAsync: UseMutateAsyncFunction<CreateUserResponse | null, Error, CreateUserBody, unknown>; // Review this.
+  updateUserAsync: UseMutateAsyncFunction<UpdateUserResponse | null, Error, UpdateUserBody, unknown>;
   userData: UserWithDetails | undefined | null;
 }
 
@@ -84,7 +86,19 @@ const CreateUserForm = forwardRef<CreateUserFormRef, CreateUserFormProps>((props
   };
 
   const updateUser = async (formValues: HandleUserFormSchema) => {
-    // TO DO.
+    if (!userData?.profile.id) {
+      toast.error('Error al actualizar usuario: ID de usuario no disponible');
+      return;
+    }
+
+    try {
+      const body = parseFormValuesToUpdateUserBody(userData?.profile.id, formValues);
+      await updateUserAsync(body);
+      toast.success('Usuario actualizado correctamente');
+      reset();
+    } catch (error) {
+      toast.error('Error al actualizar usuario', { description: error instanceof Error ? error.message : undefined });
+    }
   };
 
   useImperativeHandle(ref, () => ({
