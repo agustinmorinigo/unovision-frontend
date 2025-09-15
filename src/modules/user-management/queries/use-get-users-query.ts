@@ -1,8 +1,8 @@
 import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import type { DocumentType, Gender, Role } from '@/client/entities';
 import api from '@/services/api';
-import type { User } from '@/shared/users/types';
 import type { Pagination } from '@/shared/api/types';
+import type { User } from '@/shared/users/types';
 
 export type UseGetUsersQueryResponse = UseQueryResult<User, Error>;
 

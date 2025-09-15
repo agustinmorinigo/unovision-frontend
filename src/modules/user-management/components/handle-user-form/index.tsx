@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import type { UseMutateAsyncFunction } from '@tanstack/react-query';
+import { type UseMutateAsyncFunction, useQueryClient } from '@tanstack/react-query';
 import { forwardRef, useEffect, useImperativeHandle } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -34,6 +34,7 @@ interface CreateUserFormProps {
 const CreateUserForm = forwardRef<CreateUserFormRef, CreateUserFormProps>((props, ref) => {
   const { createUserAsync, updateUserAsync, userData } = props;
   const { isCreation, isDisabled } = useHandleUserModalStore();
+  const queryClient = useQueryClient();
 
   const methods = useForm({
     resolver: zodResolver(handleUserFormSchema),
@@ -95,7 +96,7 @@ const CreateUserForm = forwardRef<CreateUserFormRef, CreateUserFormProps>((props
       const body = parseFormValuesToUpdateUserBody(userData?.profile.id, formValues);
       await updateUserAsync(body);
       toast.success('Usuario actualizado correctamente');
-      reset();
+      queryClient.invalidateQueries({ queryKey: ['get-users'] });
     } catch (error) {
       toast.error('Error al actualizar usuario', { description: error instanceof Error ? error.message : undefined });
     }
