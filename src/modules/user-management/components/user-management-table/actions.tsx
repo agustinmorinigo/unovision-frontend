@@ -6,8 +6,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import type { User } from '@/shared/users/types';
+import useDeleteUserModalStore from '@/modules/user-management/stores/delete-user-modal-store';
 import useHandleUserModalStore from '@/modules/user-management/stores/handle-user-modal-store';
+import type { User } from '@/shared/users/types';
 
 interface TableActionsProps {
   user: User;
@@ -15,6 +16,7 @@ interface TableActionsProps {
 
 export default function TableActions({ user }: TableActionsProps) {
   const { open: openHandleUserModal } = useHandleUserModalStore();
+  const { open: openDeleteUserModal } = useDeleteUserModalStore();
 
   const handleOnSeeDetails = () => {
     openHandleUserModal({ type: 'details', user });
@@ -25,7 +27,7 @@ export default function TableActions({ user }: TableActionsProps) {
   }
 
   const handleOnDelete = () => {
-    console.log('Delete', user);
+    openDeleteUserModal({ user });
   }
 
   return (
