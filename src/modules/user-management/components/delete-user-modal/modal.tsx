@@ -1,25 +1,42 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { Loader } from 'lucide-react';
+import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogClose,
   DialogContent,
   DialogDescription,
-  DialogFooter, 
+  DialogFooter,
   DialogHeader,
-  DialogTitle
+  DialogTitle,
 } from '@/components/ui/dialog';
 import { cn } from '@/lib/cn';
+import useDeleteUserMutation from '@/modules/user-management/queries/use-delete-user-mutation';
 import useDeleteUserModalStore from '@/modules/user-management/stores/delete-user-modal-store';
-
+import getFormattedUserRoles from '@/shared/users/utils/get-formatted-user-roles';
 
 export default function DeleteUserModal() {
-  const { isOpen, close } = useDeleteUserModalStore();
-  const isPending = false
+  const { isOpen, close, user } = useDeleteUserModalStore();
+  const { isPending, mutateAsync: deleteUser } = useDeleteUserMutation();
+  const queryClient = useQueryClient();
 
-  const handleOnSubmit = () => {
+  const handleOnSubmit = async () => {
     if (isPending) return;
-    // formRef.current?.submit();
+
+    if (!user) {
+      toast.error('No se ha seleccionado ningún usuario');
+      return;
+    }
+
+    try {
+      await deleteUser({ userId: user.profile.id });
+      queryClient.invalidateQueries({ queryKey: ['get-users'] });
+      close();
+      toast.success('Usuario eliminado con éxito');
+    } catch {
+      toast.error('Error al eliminar el usuario');
+    }
   };
 
   const handleOnClose = () => {
@@ -27,7 +44,7 @@ export default function DeleteUserModal() {
     close();
   };
 
-  return (
+  return user ? (
     <Dialog open={isOpen} onOpenChange={handleOnClose}>
       <DialogContent className="h-auto max-h-[95%] w-auto min-w-[500px] max-w-[95%] overflow-hidden gap-12 flex flex-col">
         <DialogHeader className="shrink-0 h-auto">
@@ -41,7 +58,25 @@ export default function DeleteUserModal() {
             isPending && 'pointer-events-none select-none opacity-60',
           )}
         >
-          {/* Acá. */}
+          <div className="space-y-2">
+            <p>
+              ¿Estás seguro de que querés eliminar al usuario{' '}
+              <strong>
+                {user.profile.name} {user.profile.lastName}
+              </strong>
+              ?
+            </p>
+            <p>
+              <span className="font-semibold">Documento:</span> {user.profile.documentType} {user.profile.documentValue}
+            </p>
+            <p>
+              <span className="font-semibold">Email:</span> {user.profile.email}
+            </p>
+            <p>
+              <span className="font-semibold">Roles:</span>{' '}
+              {user.roles.length > 0 ? getFormattedUserRoles(user.roles) : 'Sin roles'}
+            </p>
+          </div>
         </div>
 
         <DialogFooter className="shrink-0 h-auto">
@@ -55,5 +90,5 @@ export default function DeleteUserModal() {
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  );
+  ) : null;
 }
