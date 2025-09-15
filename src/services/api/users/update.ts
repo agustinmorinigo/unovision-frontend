@@ -2,7 +2,8 @@ import supabase from '@/client';
 import type { ContractType, DocumentType, Gender } from '@/client/entities';
 import type { Schedule } from '@/shared/employees/types';
 
-export interface CreateUserBody {
+export interface UpdateUserBody {
+  userId: string;
   profile: ProfileData;
   organizationIds: string[];
   roleIds?: number[];
@@ -11,7 +12,7 @@ export interface CreateUserBody {
   doctorData?: DoctorData;
 }
 
-export interface CreateUserResponse {
+export interface UpdateUserResponse {
   message: string;
   userId: string;
 }
@@ -49,8 +50,8 @@ interface DoctorData {
   isResident: boolean;
 }
 
-export async function update(body: CreateUserBody) {
-  const { data, error } = await supabase.functions.invoke<CreateUserResponse>('update-full-user', { body });
+export async function update(body: UpdateUserBody) {
+  const { data, error } = await supabase.functions.invoke<UpdateUserResponse>('update-full-user', { body });
   if (error) throw error;
   return data;
 }
