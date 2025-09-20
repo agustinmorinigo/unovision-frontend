@@ -4,7 +4,7 @@ import { forwardRef, useEffect, useImperativeHandle } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { DocumentType } from '@/client/entities';
-import { cn } from '@/lib/cn';
+import { cn } from '@/lib/utils';
 import OrganizationsFormSection from '@/modules/user-management/components/handle-user-form/organizations-info/organizations-form-section';
 import PersonalInfoFormSection from '@/modules/user-management/components/handle-user-form/personal-info/personal-info-form-section';
 import RolesFormSection from '@/modules/user-management/components/handle-user-form/roles-info/roles-form-section';
