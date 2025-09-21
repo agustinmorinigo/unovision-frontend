@@ -1,7 +1,7 @@
 import type { FieldError, UseFormRegisterReturn } from 'react-hook-form';
 import FormFieldLayout from '@/components/common/form-field-layout';
 import { Input } from '@/components/ui/input';
-import { cn } from '@/lib/cn';
+import { cn } from '@/lib/utils';
 
 interface FormFieldProps {
   id: string;
