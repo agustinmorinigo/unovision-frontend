@@ -7,7 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { cn } from '@/lib/cn';
+import { cn } from '@/lib/utils';
 import HandleUserForm from '@/modules/user-management/components/handle-user-form';
 import HandleUserModalFooter from '@/modules/user-management/components/handle-user-modal/modal-footer';
 import useCreateUserMutation from '@/modules/user-management/queries/use-create-user-mutation';

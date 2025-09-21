@@ -11,7 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { cn } from '@/lib/cn';
+import { cn } from '@/lib/utils';
 import useDeleteUserMutation from '@/modules/user-management/queries/use-delete-user-mutation';
 import useDeleteUserModalStore from '@/modules/user-management/stores/delete-user-modal-store';
 import getFormattedUserRoles from '@/shared/users/utils/get-formatted-user-roles';
