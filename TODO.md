@@ -12,7 +12,7 @@ PRÓXIMOS TODO:
 
 
 
-
+- ELEGIR CÓMO SE HABLA AL USUARIO. "ELIGA" O "ELIGE" O "ELEGÍ". Unificar fonts, shdaows, etc.
 
 
 

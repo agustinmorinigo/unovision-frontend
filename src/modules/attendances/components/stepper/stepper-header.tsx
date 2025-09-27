@@ -1,3 +1,4 @@
+import { Check } from 'lucide-react'
 import {
   Stepper,
   StepperDescription,
@@ -8,14 +9,10 @@ import {
   StepperTrigger,
 } from "@/components/ui/stepper"
 import { attendanceReportSteps } from '@/modules/attendances/constants/attendance-report-steps';
-import { Check } from 'lucide-react'
+import useAttendanceReportStepperStore from '@/modules/attendances/stores/use-attendance-report-stepper-store';
 
-interface StepperHeaderProps {
-  currentStep: number;
-}
-
-export default function StepperHeader(props: StepperHeaderProps) {
-  const { currentStep } = props;
+export default function StepperHeader() {
+  const { currentStep } = useAttendanceReportStepperStore();
   const steps = attendanceReportSteps;
 
   return (

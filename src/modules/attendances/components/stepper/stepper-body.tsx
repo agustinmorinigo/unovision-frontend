@@ -6,10 +6,7 @@ import Step3 from "@/modules/attendances/components/stepper/step-3"
 import Step4 from "@/modules/attendances/components/stepper/step-4"
 import Step5 from "@/modules/attendances/components/stepper/step-5"
 import Step6 from "@/modules/attendances/components/stepper/step-6"
-
-interface StepperBodyProps {
-  currentStep: number
-}
+import useAttendanceReportStepperStore from '@/modules/attendances/stores/use-attendance-report-stepper-store'
 
 const steps: Record<number, ComponentType> = {
   1: Step1,
@@ -20,7 +17,8 @@ const steps: Record<number, ComponentType> = {
   6: Step6,
 }
 
-export default function StepperBody({ currentStep }: StepperBodyProps) {
+export default function StepperBody() {
+  const { currentStep } = useAttendanceReportStepperStore();
   const StepComponent = steps[currentStep]
 
   return (
