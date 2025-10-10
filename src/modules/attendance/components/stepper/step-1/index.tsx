@@ -8,45 +8,39 @@ import {
   Footprints,
   Info,
   Users,
-} from "lucide-react"
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import MetricItem from '@/modules/attendance/components/stepper/step-1/metric-item'
-import RequirementItem from '@/modules/attendance/components/stepper/step-1/requirement-item'
-import { StepperLayout } from '@/modules/attendance/components/stepper/stepper-layout'
-import useAttendanceReportStepperStore from '@/modules/attendance/stores/use-attendance-report-stepper-store'
+} from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import MetricItem from '@/modules/attendance/components/stepper/step-1/metric-item';
+import RequirementItem from '@/modules/attendance/components/stepper/step-1/requirement-item';
+import { StepperLayout } from '@/modules/attendance/components/stepper/stepper-layout';
+import useAttendanceReportStepperStore from '@/modules/attendance/stores/use-attendance-report-stepper-store';
 
 const steps = [
   {
-    step: 1,
     title: 'Cargar datos',
     description: 'Mes/año, organización y archivo Excel',
   },
   {
-    step: 2,
-    title: 'Validar',
-    description: 'Revisar y corregir errores en los datos',
+    title: 'Validar Usuarios',
+    description: 'Validar que los empleados existan en el sistema',
   },
   {
-    step: 3,
+    title: 'Validar Datos',
+    description: 'Revisar y corregir errores en los datos del Excel',
+  },
+  {
     title: 'Justificar',
     description: 'Cargar inasistencias justificadas y excepciones',
   },
   {
-    step: 4,
     title: 'Eventos',
     description: 'Marcar días especiales (feriados, cortes, etc.)',
   },
   {
-    step: 5,
     title: 'Reporte',
     description: 'Ver el reporte final con todas las métricas',
   },
-]
+];
 
 export default function Step1() {
   const { goToNextStep } = useAttendanceReportStepperStore();
@@ -60,7 +54,7 @@ export default function Step1() {
             <CardTitle>Gestión de asistencia</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className='text-sm'>Sistema de generación de reportes de asistencia para empleados</p>
+            <p className="text-sm">Sistema de generación de reportes de asistencia para empleados</p>
           </CardContent>
         </Card>
 
@@ -70,13 +64,12 @@ export default function Step1() {
             <CardTitle>¿Cómo funciona el sistema?</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className='text-sm'>
-              Este sistema te ayuda a generar reportes de asistencia precisos para
-              calcular correctamente la liquidación de empleados.
+            <p className="text-sm">
+              Este sistema te ayuda a generar reportes de asistencia precisos para calcular correctamente la liquidación
+              de empleados.
             </p>
-            <p className='text-sm'>
-              Sigue los 6 pasos para cargar, validar y procesar los datos de
-              fichaje de tu organización.
+            <p className="text-sm">
+              Sigue los 6 pasos para cargar, validar y procesar los datos de fichaje de tu organización.
             </p>
           </CardContent>
         </Card>
@@ -142,7 +135,8 @@ export default function Step1() {
               badge="Llegadas tarde"
               description={
                 <p className="text-sm">
-                  Se cuenta cada día que llegó después de su horario configurado. A partir del 4to día tarde, los minutos acumulados se descuentan de horas extras.
+                  Se cuenta cada día que llegó después de su horario configurado. A partir del 4to día tarde, los
+                  minutos acumulados se descuentan de horas extras.
                 </p>
               }
             />
@@ -150,7 +144,8 @@ export default function Step1() {
               badge="Horas extras"
               description={
                 <p className="text-sm">
-                  Se calculan comparando horarios reales vs configurados. Cada 40 minutos = 1 hora extra. Los excesos de break se descuentan aquí.
+                  Se calculan comparando horarios reales vs configurados. Cada 40 minutos = 1 hora extra. Los excesos de
+                  break se descuentan aquí.
                 </p>
               }
             />
@@ -171,30 +166,29 @@ export default function Step1() {
             <CardTitle>Proceso paso a paso</CardTitle>
           </CardHeader>
           <CardContent className="w-full flex flex-col gap-4">
-            {
-              steps.map(({ step, title, description }) => (
-                <div key={step} className="w-full flex items-start gap-4 p-4 rounded-lg bg-muted-foreground/6">
-                  <span className='size-[35px] flex items-center justify-center p-2 shrink-0 rounded-full bg-blue-900'>{step}</span>
-                  <div className="flex flex-col w-full">
-                    <span className="text-sm font-semibold">{title}</span>
-                    <span className="text-sm">{description}</span>
-                  </div>
+            {steps.map(({ title, description }, i) => (
+              <div
+                key={crypto.randomUUID()}
+                className="w-full flex items-start gap-4 p-4 rounded-lg bg-muted-foreground/6"
+              >
+                <span className="size-[35px] flex items-center justify-center p-2 shrink-0 rounded-full bg-blue-900">
+                  {i + 1}
+                </span>
+                <div className="flex flex-col w-full">
+                  <span className="text-sm font-semibold">{title}</span>
+                  <span className="text-sm">{description}</span>
                 </div>
-              ))
-            }
+              </div>
+            ))}
           </CardContent>
         </Card>
       </div>
 
       <StepperLayout.Footer>
-        <StepperLayout.Button disabled>
-          Volver
-        </StepperLayout.Button>
+        <StepperLayout.Button disabled>Volver</StepperLayout.Button>
 
-        <StepperLayout.Button onClick={goToNextStep}>
-          Siguiente
-        </StepperLayout.Button>
+        <StepperLayout.Button onClick={goToNextStep}>Siguiente</StepperLayout.Button>
       </StepperLayout.Footer>
     </StepperLayout.Root>
-  )
+  );
 }

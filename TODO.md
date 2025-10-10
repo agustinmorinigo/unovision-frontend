@@ -68,4 +68,17 @@ AGREGAR ALGUNA SANITIZACIÓN EN LA ENTRADA DE DATOS DEL EXCEL, YA QUE ALLÍ PUED
 
 - Hay un bug en el créate usuario cuando clickeo y desclikeo el role empleado.
 - Luego de que el créate es exitoso, NO se hace el refresh de la tabla.
-- Agregar skeletons como loaders donde se carguen cosas...
+- Agregar skeletons como loaders donde se carguen cosas...a
+
+
+
+
+TODO: AGREGAR query-keys-factory.
+
+
+
+
+
+
+
+TODO: UNA VEZ TEMRINADO TODO LO DE ASISTENCIA, DAR DE ALTA AMBOS SETUPS DE FORMA PROLIJA, VER QUE LIGHT Y DARKMODE FUNCIONAN BIEN, METER REFACTOR EN ALERTS, METER QUERY-KEYS FACTORY, ETC, ETC, ETC.

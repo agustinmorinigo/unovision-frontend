@@ -1,4 +1,5 @@
 import { auth } from '@/services/api/auth';
+import { employees } from '@/services/api/employees';
 import { organizations } from '@/services/api/organizations';
 import { user } from '@/services/api/users';
 import { usersOrganizations } from '@/services/api/users-organizations';
@@ -9,6 +10,7 @@ const api = {
   usersOrganizations,
   organizations,
   user,
+  employees,
 };
 
 export default api;

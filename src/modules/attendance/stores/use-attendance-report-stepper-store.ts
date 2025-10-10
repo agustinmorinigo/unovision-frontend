@@ -17,7 +17,7 @@ const useAttendanceReportStepperStore = create<State & Actions>()(
   persist(
     (set, get) => ({
       currentStep: 1,
-      totalSteps: 6,
+      totalSteps: 7,
 
       goToNextStep: () => {
         const { currentStep, totalSteps } = get();
@@ -42,7 +42,6 @@ const useAttendanceReportStepperStore = create<State & Actions>()(
         const { currentStep } = get();
         return currentStep > 1;
       },
-
     }),
     {
       name: 'attendance-report-stepper',
