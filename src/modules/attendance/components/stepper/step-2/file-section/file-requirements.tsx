@@ -1,25 +1,19 @@
-import { SquareCheckBig } from "lucide-react"
-import { Badge } from "@/components/ui/badge"
-import { formatBytes } from "@/hooks/use-file-upload"
+import { SquareCheckBig } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { formatBytes } from '@/hooks/use-file-upload';
 import {
   attendanceFileHeaders,
   maxSizeInBytes,
   validFileExtensions,
-} from "@/modules/attendance/constants/attendance-report-file-requirements"
+} from '@/modules/attendance/constants/attendance-report-file-requirements';
 
-function RequirementItem({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+function RequirementItem({ children }: { children: React.ReactNode }) {
   return (
     <div className="w-full flex items-center gap-1 text-sm">
       <SquareCheckBig className="shrink-0 size-5 text-green-400" />
-      <div className="w-full flex items-center gap-2 flex-wrap">
-        {children}
-      </div>
+      <div className="w-full flex items-center gap-2 flex-wrap">{children}</div>
     </div>
-  )
+  );
 }
 
 export default function FileRequirements() {
@@ -53,49 +47,39 @@ export default function FileRequirements() {
 
         <RequirementItem>
           <p>
-            Dos <Badge>Nombre</Badge> distintos con mismo{" "}
-            <Badge>Usuario Nro.</Badge> es inválido.
+            Dos <Badge>Nombre</Badge> distintos con mismo <Badge>Usuario Nro.</Badge> es inválido.
           </p>
         </RequirementItem>
 
         <RequirementItem>
           <p>
-            Todas las fechas deben seguir el formato{" "}
-            <Badge>DD/MM/AAAA HH:MM</Badge> (por ejemplo,{" "}
-            <Badge>10/01/2024 07:56</Badge>{" "}
-            <Badge>7/01/2024 07:56</Badge>).
-          </p>
-        </RequirementItem>
-
-        {/* TO DO: MEJORAR ESTE MSJ AGREGAR EJEMPLO */}
-        <RequirementItem>
-          <p>
-            Cada <Badge>Fecha/Hora</Badge> debe estar en el mes y año
-            seleccionado arriba.
+            Todas las fechas deben seguir el formato <Badge>DD/MM/AAAA HH:MM</Badge> (por ejemplo,{' '}
+            <Badge>10/01/2024 07:56</Badge> <Badge>7/01/2024 07:56</Badge>).
           </p>
         </RequirementItem>
 
         <RequirementItem>
           <p>
-            El archivo no debe exceder los{" "}
-            <Badge>{formatBytes(maxSizeInBytes)}</Badge> de tamaño.
+            Cada <Badge>Fecha/Hora</Badge> debe estar en el mes y año seleccionado arriba.
           </p>
         </RequirementItem>
 
-        {/* TO DO: MEJORAR ESTE MSJ AGREGAR EJEMPLO */}
         <RequirementItem>
           <p>
-            Todos los usuarios del archivo deben estar dado de alta en el sistema, con mismo tipo y valor de documento como figura en el Excel.
+            El archivo no debe exceder los <Badge>{formatBytes(maxSizeInBytes)}</Badge> de tamaño.
           </p>
         </RequirementItem>
 
-        {/* TO DO: MEJORAR ESTE MSJ AGREGAR EJEMPLO */}
+        <RequirementItem>
+          <p>Los empleados del archivo deben existir en el sistema, bajo el rol empleado.</p>
+        </RequirementItem>
+
         <RequirementItem>
           <p>
-            Los DNI no pueden contener puntos, comas, espacios ni nada, solo números.
+            Cada <Badge>Usuario Nro.</Badge> debe ser solo numérico. No comas, puntos ni letras.
           </p>
         </RequirementItem>
       </div>
     </div>
-  )
+  );
 }
