@@ -54,3 +54,18 @@ TO DO:
 
 - Unificar las 3 Edge functions en UNA SOLA, para evitar enfriamiento y eso, para q esté constantemente activa la Edge.
 - El delete funciona a medias. Que la Edge function ejecute una transacction de sql para asegurar la integridad de TODO.
+
+
+
+
+TO DO IMPORTANTÍSIMO:
+AGREGAR ALGUNA SANITIZACIÓN EN LA ENTRADA DE DATOS DEL EXCEL, YA QUE ALLÍ PUEDEN INYECTAR CUALQUIER COSA!!!!
+
+
+
+
+
+
+- Hay un bug en el créate usuario cuando clickeo y desclikeo el role empleado.
+- Luego de que el créate es exitoso, NO se hace el refresh de la tabla.
+- Agregar skeletons como loaders donde se carguen cosas...
