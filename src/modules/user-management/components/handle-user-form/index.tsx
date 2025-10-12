@@ -33,7 +33,7 @@ interface CreateUserFormProps {
 
 const CreateUserForm = forwardRef<CreateUserFormRef, CreateUserFormProps>((props, ref) => {
   const { createUserAsync, updateUserAsync, userData } = props;
-  const { isCreation, isDisabled } = useHandleUserModalStore();
+  const { isCreation, isDisabled, close } = useHandleUserModalStore();
   const queryClient = useQueryClient();
 
   const methods = useForm({
@@ -80,7 +80,9 @@ const CreateUserForm = forwardRef<CreateUserFormRef, CreateUserFormProps>((props
       const body = parseFormValuesToCreateUserBody(formValues);
       await createUserAsync(body);
       toast.success('Usuario creado correctamente');
+      queryClient.invalidateQueries({ queryKey: ['get-users'] });
       reset();
+      close();
     } catch (error) {
       toast.error('Error al crear usuario', { description: error instanceof Error ? error.message : undefined });
     }
@@ -97,6 +99,7 @@ const CreateUserForm = forwardRef<CreateUserFormRef, CreateUserFormProps>((props
       await updateUserAsync(body);
       toast.success('Usuario actualizado correctamente');
       queryClient.invalidateQueries({ queryKey: ['get-users'] });
+      close();
     } catch (error) {
       toast.error('Error al actualizar usuario', { description: error instanceof Error ? error.message : undefined });
     }
